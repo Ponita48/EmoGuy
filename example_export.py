@@ -5,6 +5,7 @@
 
 import platform
 import time
+import socket
 
 from emokit.emotiv import Emotiv
 
@@ -13,6 +14,7 @@ if platform.system() == "Windows":
 
 
 if __name__ == "__main__":
+    print "Connection Started at"
     with Emotiv(display_output=False, verbose=True, write=True) as headset:
         print("Serial Number: %s" % headset.serial_number)
         print("Exporting data... press control+c to stop.")
