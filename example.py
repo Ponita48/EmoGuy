@@ -11,5 +11,5 @@ if __name__ == "__main__":
         while True:
             packet = headset.dequeue()
             if packet is not None:
-                pass
+            	print headset.data
             time.sleep(0.001)
