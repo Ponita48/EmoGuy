@@ -1,6 +1,7 @@
 import csv
 
 import numpy as np
+import scipy, pylab
 import pandas as pd
 import matplotlib.pyplot as plt
 # import pywt
@@ -14,23 +15,39 @@ hasil = np.vstack((hasil, pd.read_csv('aihihi.csv', skipinitialspace=True, useco
 
 # normalisasi
 # Sample rate dan cutoff (dalam hz)
-fs = 1000.0
-lowcut = 130.0
-highcut = 170.0
-N = 256
-T = 1/256
-order = 5
 
 # (DC offset)
+
+ibp=[]
+
 i = 1
 for column in hasil.T[1:]:
-	hasil.T[i][1:] = hasil.T[i][1:].astype(np.float) - np.mean(column[1:].astype(np.float))	
-	i += 1
+    hasil.T[i][1:] = hasil.T[i][1:].astype(np.float) - np.mean(column[1:].astype(np.float))	
+    # fft = scipy.fft(hasil.T[1][1:])
+    # bp = fft[:]
+    # for i in range(len(bp)):
+    #     if i>=10:bp[i]=0
+    # ibp.append(scipy.ifft(bp))
+    # aList[i] = hasil.T[i][1:] 
+    i += 1
+# FFT
 
-# W = fftfreq(hasil.T[1][1], d=1)
 
-# ybpf = butter_bandpass_filter(y,lowcut,highcut,N,order=2) 
+# print hasil.T[1][1:]
+# print '=-------------='
+# print ibp[0]
 
+h,w=3,2
+pylab.figure(figsize=(12,9))
+pylab.subplots_adjust(hspace=.7)
+
+pylab.subplot(h,w,1);pylab.title("(I) Sinyal Asli")
+pylab.plot(hasil.T[1][1:])
+
+# pylab.subplot(h,w,2);pylab.title("(I) Sinyal FFT")
+# pylab.plot(ibp[0])
+
+pylab.show()
 
 # Fungsi Bandpass
 def butter_bandpass(lowcut, highcut, fs, order=5):
@@ -44,6 +61,10 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = lfilter(b, a, data)
     return y
+
+
+# ybpf = butter_bandpass_filter(y,lowcut,highcut,N,order=2)
+
 
 
 print '--------'
