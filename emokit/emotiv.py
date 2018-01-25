@@ -103,6 +103,8 @@ class Emotiv(object):
         self.crypto = None
         # Setup the crypto thread, if we are reading from an encrypted data source.
 
+        self.send_data = None
+
         # Setup emokit loop thread. This thread coordinates the work done from the reader to be decrypted and queued
         # into EmotivPackets.
         self.output = None
@@ -334,6 +336,9 @@ class Emotiv(object):
                                 new_packet = EmotivOldPacket(decrypted_task.data, timestamp=decrypted_task.timestamp)
                             else:
                                 new_packet = EmotivNewPacket(decrypted_task.data, timestamp=decrypted_task.timestamp)
+                            self.send_data = new_packet.sensors
+
+
                     else:
                         new_packet = EmotivOldPacket(decrypted_task.data, timestamp=decrypted_task.timestamp)
                     # print(new_packet.counter)
@@ -362,6 +367,7 @@ class Emotiv(object):
                         else:
                             self.output.tasks.put_nowait(EmotivOutputTask(decrypted=True,
                                                                           data=EmotivOldPacket(decrypted_task.data)))
+                    # print new_packet.sensors
                     if type(new_packet) == EmotivOldPacket:
                         if new_packet.battery is not None:
                             self.battery = new_packet.battery
