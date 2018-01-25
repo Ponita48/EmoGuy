@@ -22,25 +22,21 @@ with open('aihihi.csv', 'r') as f:
 # Sample rate dan cutoff (dalam hz)
 
 # (DC offset)
-
-ibp=[]
-
+ibp=[0]
 i = 1
 for column in hasil.T[1:]:
     hasil.T[i][1:] = hasil.T[i][1:].astype(np.float) - np.mean(column[1:].astype(np.float))	
-    # fft = scipy.fft(hasil.T[1][1:])
-    # bp = fft[:]
-    # for i in range(len(bp)):
-    #     if i>=10:bp[i]=0
-    # ibp.append(scipy.ifft(bp))
-    # aList[i] = hasil.T[i][1:] 
+    fft = scipy.fft(hasil.T[i][1:])
+    bp = fft[:]
+    for j in range(len(bp)):
+        if j>=10:bp[j]=0
+    ibp.append(scipy.ifft(bp))
     i += 1
 # FFT
 
 
-# print hasil.T[1][1:]
-# print '=-------------='
-# print ibp[0]
+print ibp[0]
+print '=-------------='
 
 h,w=3,2
 pylab.figure(figsize=(12,9))
@@ -49,8 +45,14 @@ pylab.subplots_adjust(hspace=.7)
 pylab.subplot(h,w,1);pylab.title("(I) Sinyal Asli")
 pylab.plot(hasil.T[1][1:])
 
-# pylab.subplot(h,w,2);pylab.title("(I) Sinyal FFT")
-# pylab.plot(ibp[0])
+pylab.subplot(h,w,2);pylab.title("(I) Sinyal FFT")
+pylab.plot(ibp[1])
+
+pylab.subplot(h,w,3);pylab.title("(I) Sinyal FFT")
+pylab.plot(hasil.T[2][1:])
+
+pylab.subplot(h,w,4);pylab.title("(I) Sinyal FFT")
+pylab.plot(ibp[2])
 
 pylab.show()
 
