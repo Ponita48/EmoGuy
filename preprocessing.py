@@ -1,16 +1,19 @@
 import csv
+import time
 
 import numpy as np
 import scipy, pylab
 import matplotlib.pyplot as plt
-# import pywt
 from scipy.signal import butter, lfilter
 from scipy.fftpack import rfft, irfft, fftfreq
 
+import processing
+
+start = time.time()
 #get_raw_data
 header = ['Timestamp', 'F3 Value','FC5 Value','F7 Value','T7 Value','P7 Value','O1 Value','O2 Value','P8 Value','T8 Value','F8 Value','AF4 Value','FC6 Value','F4 Value','AF3 Value']
 hasil = np.array(header)
-with open('aihihi.csv', 'r') as f:
+with open('emotiv_values_2018-01-26 08-37-47.436000.csv', 'r') as f:
 	reader = csv.DictReader(f)
 	for row in reader:
 		row_text = []
@@ -22,7 +25,8 @@ with open('aihihi.csv', 'r') as f:
 # Sample rate dan cutoff (dalam hz)
 
 # (DC offset)
-ibp=[0]
+ibp = np.zeros(len(hasil)-1)
+# print len(hasil)
 i = 1
 for column in hasil.T[1:]:
     hasil.T[i][1:] = hasil.T[i][1:].astype(np.float) - np.mean(column[1:].astype(np.float))	
@@ -30,56 +34,32 @@ for column in hasil.T[1:]:
     bp = fft[:]
     for j in range(len(bp)):
         if j>=10:bp[j]=0
-    ibp.append(scipy.ifft(bp))
+    ibp = np.vstack((ibp, np.array(scipy.ifft(bp))))
     i += 1
 # FFT
+ibp = ibp[1:]
+ibp = ibp.T
 
+aihihi = processing.LBP1D(ibp)
 
-print ibp[0]
-print '=-------------='
+print "time: ", time.time() - start
 
-h,w=3,2
-pylab.figure(figsize=(12,9))
-pylab.subplots_adjust(hspace=.7)
+# print len(ibp[0])
+# exit()
 
-pylab.subplot(h,w,1);pylab.title("(I) Sinyal Asli")
-pylab.plot(hasil.T[1][1:])
+i = 1
 
-pylab.subplot(h,w,2);pylab.title("(I) Sinyal FFT")
-pylab.plot(ibp[1])
-
-pylab.subplot(h,w,3);pylab.title("(I) Sinyal FFT")
-pylab.plot(hasil.T[2][1:])
-
-pylab.subplot(h,w,4);pylab.title("(I) Sinyal FFT")
-pylab.plot(ibp[2])
-
-pylab.show()
-
-
-# # Fungsi Bandpass
-# def butter_bandpass(lowcut, highcut, fs, order=5):
-# 	nyq = 0.5 * fs
-# 	low = lowcut / nyq
-# 	high = highcut / nyq
-# 	b, a = butter(order, [low, high], btype='band')
-# 	return b, a
-
-# def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
-# 	b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-# 	y = lfilter(b, a, data)
-# 	return y
-
-# ybpf = butter_bandpass_filter(y,lowcut,highcut,N,order=2)
-
-# print '--------'
-# print hasil.T[1][1]
-
-
-# # print "\nsetelah normalisasi"
-# # print hasil
-
-# # wavelet
-# # for column in hasil.T:
-# # 	cA, cD = pywt.dwt(column, 'db5')
-
+plt.figure(1)
+for row in aihihi:
+    plt.tick_params(
+        axis='both',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom='off',      # ticks along the bottom edge are off
+        top='off',
+        left='off',
+        right='off',         # ticks along the top edge are off
+        labelbottom='off') # labels along the bottom edge are off
+    plt.subplot(7, 2, i)
+    plt.plot(aihihi[i-1], '-')
+    i+=1
+plt.show()

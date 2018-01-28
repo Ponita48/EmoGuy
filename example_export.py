@@ -15,14 +15,14 @@ if platform.system() == "Windows":
 
 if __name__ == "__main__":
     print "Connection Started at"
-    with Emotiv(display_output=False, verbose=True, write=True) as headset:
+    with Emotiv(display_output=True, verbose=False, write=True) as headset:
         print("Serial Number: %s" % headset.serial_number)
         print("Exporting data... press control+c to stop.")
 
         while headset.running:
             try:
                 packet = headset.dequeue()
-                print "%s\n" % headset.sensors['F3']
+                # print "%s\n" % headset.sensors['F3']
             except Exception:
                 headset.stop()
             time.sleep(0.001)
