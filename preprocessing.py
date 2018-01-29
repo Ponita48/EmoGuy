@@ -79,15 +79,26 @@ class preprocessing:
 			i += 1
 
 	def plot(self):
-		h,w=3,2
-		pylab.figure(figsize=(12,9))
-		pylab.subplots_adjust(hspace=.7)
-		pylab.subplot(h,w,1);pylab.title("(I) Sinyal Asli")
-		pylab.plot(self.hasil.T[1][1:])
+		i=1
+		j=1
+		h,w=7,2
+		plt.figure(figsize=(12,9))
+		
+		for row in self.hasil.T[i:] :
+			plt.subplots_adjust(hspace=.7)
 
-		pylab.subplot(h,w,2);pylab.title("(I) Sinyal FFT")
-		pylab.plot(self.ibp[1])
-		pylab.show()
+			plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
+			plt.plot(self.hasil.T[i][1:])
+			i+=1
+
+		i=1
+		pylab.figure(figsize=(12,9))
+		for row in self.hasil.T[i:] :
+			plt.subplots_adjust(hspace=.7)
+			plt.subplot(h,w,i);pylab.title("(I) Sinyal FFT")
+			plt.plot(self.ibp[i])
+			i+=1
+		plt.show()
 
 data=preprocessing('aihihi.csv')
 data.readData()
