@@ -134,7 +134,7 @@ namespace EmoGuyWPF
 					DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
 					counter++;
 					lblCounter.Content = "" + counter;
-					if (counter > 300)
+					if (counter > 1000)
 					{
 						iteration.RemoveAt(0);
 						listDataAF3.RemoveAt(0);
