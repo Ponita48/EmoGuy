@@ -1,0 +1,45 @@
+﻿<Window x:Class="EmoGuyWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmoGuyWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Closed="Window_Closed" Height="768" Width="1280">
+	<Grid>
+		<d3:Chart BottomTitle="Argument"  LeftTitle="Function" Margin="0,0,218,0">
+			<Grid Name="linesContainer"/>
+		</d3:Chart>
+		<TextBox Name="txtIP" materialDesign:HintAssist.Hint="e.g. : 127.0.0.1" HorizontalAlignment="Right" Height="35" Margin="0,41,10,0" TextWrapping="Wrap"  Text="" VerticalAlignment="Top" Width="203"/>
+		<TextBox Name="txtPort" materialDesign:HintAssist.Hint="e.g. : 8080" HorizontalAlignment="Right" Height="33" Margin="0,112,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="203"/>
+		<Label Content="IP" HorizontalAlignment="Right" Margin="0,10,155,0" VerticalAlignment="Top" Width="58"/>
+		<Label Content="PORT" HorizontalAlignment="Right" Margin="0,81,174,0" VerticalAlignment="Top"/>
+		<Button Content="Connect/Disconnect" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Width="203" Click="Button_Click"/>
+		<GroupBox Header="Recoding Control" HorizontalAlignment="Right" Margin="0,224,10,98" Width="203">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<Grid>
+					<CheckBox Content="F3" VerticalAlignment="Top"/>
+					<CheckBox Content="FC5"  VerticalAlignment="Top" Margin="0,30,0,0"/>
+					<CheckBox Content="F7"  VerticalAlignment="Top" Margin="0,60,0,0"/>
+					<CheckBox Content="T7"  VerticalAlignment="Top" Margin="0,90,0,0"/>
+					<CheckBox Content="P7"  VerticalAlignment="Top" Margin="0,120,0,0"/>
+					<CheckBox Content="O1"  VerticalAlignment="Top" Margin="0,150,0,0"/>
+					<CheckBox Content="O2"  VerticalAlignment="Top" Margin="0,180,0,0"/>
+					<CheckBox Content="P8"  VerticalAlignment="Top" Margin="0,210,0,0"/>
+					<CheckBox Content="T8"  VerticalAlignment="Top" Margin="0,240,0,0"/>
+					<CheckBox Content="F8"  VerticalAlignment="Top" Margin="0,270,0,0"/>
+					<CheckBox Content="AF4"  VerticalAlignment="Top" Margin="0,300,0,0"/>
+					<CheckBox Content="FC6"  VerticalAlignment="Top" Margin="0,330,0,0"/>
+					<CheckBox Content="F4"  VerticalAlignment="Top" Margin="0,360,0,0"/>
+					<CheckBox Content="AF3"  VerticalAlignment="Top" Margin="0,390,0,0"/>
+
+				</Grid>
+			</ScrollViewer>
+		</GroupBox>
+		<Button Name="StartButton" Content="Start/Stop" Margin="0,187,10,0" VerticalAlignment="Top" Click="StartButton_Click" HorizontalAlignment="Right" Width="203"/>
+		<Label Content="Counter" HorizontalAlignment="Right" Margin="0,0,125,10" Width="87" Height="83" VerticalAlignment="Bottom" FontSize="20"/>
+		<Label Name="lblCounter" Content="0" HorizontalAlignment="Left" Margin="1168,645,0,0" VerticalAlignment="Top" Height="83" Width="94" FontSize="20"/>
+	</Grid>
+</Window>
