@@ -147,7 +147,7 @@ class Emotiv(object):
             if self.write_encrypted:
                 # Only write encrypted if we are reading encrypted.
                 if self.read_encrypted:
-                    output_path = "emotiv_encrypted_data_%s_%s.csv" % \
+                    output_path = "csv/emotiv_encrypted_data_%s_%s.csv" % \
                                   (self.reader.serial_number, str(datetime.now()).replace(':', '-'))
                     if self.output_path is not None:
                         if type(self.output_path) == str:
@@ -161,7 +161,7 @@ class Emotiv(object):
                 # If we are reading values we do not have the decrypted data,
                 # rather than reconstructing it do not write it.
                 if not self.read_values:
-                    output_path = 'emotiv_data_%s.csv' % str(datetime.now()).replace(':', '-')
+                    output_path = 'csv/emotiv_data_%s.csv' % str(datetime.now()).replace(':', '-')
                     if self.output_path is not None:
                         if type(self.output_path) == str:
                             output_path = path_checker(self.output_path, output_path)
@@ -171,7 +171,7 @@ class Emotiv(object):
 
             # Setup sensor value writer.
             if self.write_values:
-                output_path = 'emotiv_values_%s.csv' % str(datetime.now()).replace(':', '-')
+                output_path = 'csv/emotiv_values_%s.csv' % str(datetime.now()).replace(':', '-')
                 if self.output_path is not None:
                     if type(self.output_path) == str:
                         output_path = path_checker(self.output_path, output_path)
