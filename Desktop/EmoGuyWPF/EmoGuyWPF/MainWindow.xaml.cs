@@ -31,7 +31,7 @@ namespace EmoGuyWPF
 		bool isOK = false;
 		bool isRunning = false;
 		WebSocket ws;
-		int counter;
+		double counter;
 		List<double> listDataAF3 = new List<double>();
 		List<double> listDataAF4 = new List<double>();
 		List<double> listDataF3 = new List<double>();
@@ -63,6 +63,7 @@ namespace EmoGuyWPF
 		LineGraph LineO1 = null;
 		LineGraph LineO2 = null;
 		LineGraph LineZeros = null;
+		string old_data = "";
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -96,106 +97,130 @@ namespace EmoGuyWPF
 			LineO1.Stroke = new SolidColorBrush(Color.FromArgb(255, 162, 142, 131)) ;
 			LineO2.Stroke = new SolidColorBrush(Color.FromArgb(255, 208, 71, 65)) ;
 			LineZeros.Stroke = new SolidColorBrush(Colors.Black) ;
-			linesContainer.Children.Add(LineAF3);
-			linesContainer.Children.Add(LineAF4);
-			linesContainer.Children.Add(LineF3);
-			linesContainer.Children.Add(LineF4);
-			linesContainer.Children.Add(LineF7);
+			//LineAF3.Description = "AF3";
+			//LineAF4.Description = "AF4";
+			//LineF3.Description = "F3";
+			//LineF4.Description = "F4";
+			//LineF7.Description = "F7";
+			LineF8.Description = "F8";
+			//LineFC5.Description = "FC5";
+			//LineFC6.Description = "FC6";
+			//LineT7.Description = "T7";
+			//LineT8.Description = "T8";
+			//LineP7.Description = "P7";
+			//LineP8.Description = "P8";
+			//LineO1.Description = "O1";
+			//LineO2.Description = "O2";
+			LineZeros.Description = "ZEROS";
+			//linesContainer.Children.Add(LineAF3);
+			//linesContainer.Children.Add(LineAF4);
+			//linesContainer.Children.Add(LineF3);
+			//linesContainer.Children.Add(LineF4);
+			//linesContainer.Children.Add(LineF7);
 			linesContainer.Children.Add(LineF8);
-			linesContainer.Children.Add(LineFC5);
-			linesContainer.Children.Add(LineFC6);
-			linesContainer.Children.Add(LineT7);
-			linesContainer.Children.Add(LineT8);
-			linesContainer.Children.Add(LineP7);
-			linesContainer.Children.Add(LineP8);
-			linesContainer.Children.Add(LineO1);
-			linesContainer.Children.Add(LineO2);
+			//linesContainer.Children.Add(LineFC5);
+			//linesContainer.Children.Add(LineFC6);
+			//linesContainer.Children.Add(LineT7);
+			//linesContainer.Children.Add(LineT8);
+			//linesContainer.Children.Add(LineP7);
+			//linesContainer.Children.Add(LineP8);
+			//linesContainer.Children.Add(LineO1);
+			//linesContainer.Children.Add(LineO2);
 			linesContainer.Children.Add(LineZeros);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (isOK)
-			{
-				ws.Close();
-			}
-			else
+			if (ws == null ||!ws.IsAlive)
 			{
 				connectToPython();
-			}
 
+			}
 		}
 		public void OnMessageResult(object sender,MessageEventArgs e)
 		{
-			this.Dispatcher.Invoke(() =>
+			if (!old_data.Equals(e.Data))
 			{
-				try
+				old_data = e.Data;
+				this.Dispatcher.Invoke(() =>
 				{
-					DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
-					counter++;
-					lblCounter.Content = "" + counter;
-					if (counter > 1000)
+					try
 					{
-						iteration.RemoveAt(0);
-						listDataAF3.RemoveAt(0);
-						listDataAF4.RemoveAt(0);
-						listDataF3.RemoveAt(0);
-						listDataF4.RemoveAt(0);
-						listDataF7.RemoveAt(0);
-						listDataF8.RemoveAt(0);
-						listDataFC5.RemoveAt(0);
-						listDataFC6.RemoveAt(0);
-						listDataT7.RemoveAt(0);
-						listDataT8.RemoveAt(0);
-						listDataP7.RemoveAt(0);
-						listDataP8.RemoveAt(0);
-						listDataO1.RemoveAt(0);
-						listDataO2.RemoveAt(0);
-						zeros.RemoveAt(0);
+						DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
+						counter ++;
+						lblCounter.Content = "" + counter;
+						if (counter > 1000)
+						{
+							iteration.RemoveAt(0);
+							//listDataAF3.RemoveAt(0);
+							//listDataAF4.RemoveAt(0);
+							//listDataF3.RemoveAt(0);
+							//listDataF4.RemoveAt(0);
+							//listDataF7.RemoveAt(0);
+							listDataF8.RemoveAt(0);
+							//listDataFC5.RemoveAt(0);
+							//listDataFC6.RemoveAt(0);
+							//listDataT7.RemoveAt(0);
+							//listDataT8.RemoveAt(0);
+							//listDataP7.RemoveAt(0);
+							//listDataP8.RemoveAt(0);
+							//listDataO1.RemoveAt(0);
+							//listDataO2.RemoveAt(0);
+							zeros.RemoveAt(0);
+						}
+						iteration.Add(counter);
+						//listDataAF3.Add(data.AF3.value + 700);
+						//listDataAF4.Add(data.AF4.value + 600);
+						//listDataF3.Add(data.F3.value + 500);
+						//listDataF4.Add(data.F4.value + 400);
+						//listDataF7.Add(data.F7.value + 300);
+						//listDataF8.Add(data.F8.value + 200);
+						listDataF8.Add(data.F8.value);
+						//listDataFC5.Add(data.FC5.value + 100);
+						//listDataFC6.Add(data.FC6.value);
+						//listDataT7.Add(data.T7.value - 100);
+						//listDataT8.Add(data.T8.value - 200);
+						//listDataP7.Add(data.P7.value - 300);
+						//listDataP8.Add(data.P8.value - 400);
+						//listDataO1.Add(data.O1.value - 500);
+						//listDataO2.Add(data.O2.value - 600);
+						zeros.Add(0 - 600);
+						//LineAF3.Plot(iteration, listDataAF3);
+						//LineAF4.Plot(iteration, listDataAF4);
+						//LineF3.Plot(iteration, listDataF3);
+						//LineF4.Plot(iteration, listDataF4);
+						//LineF7.Plot(iteration, listDataF7);
+						LineF8.Plot(iteration, listDataF8);
+						//LineFC5.Plot(iteration, listDataFC5);
+						//LineFC6.Plot(iteration, listDataFC6);
+						//LineT7.Plot(iteration, listDataT7);
+						//LineT8.Plot(iteration, listDataT8);
+						//LineP7.Plot(iteration, listDataP7);
+						//LineP8.Plot(iteration, listDataP8);
+						//LineO1.Plot(iteration, listDataO1);
+						//LineO2.Plot(iteration, listDataO2);
+						LineZeros.Plot(iteration, zeros);
+						//DataChart.PlotOriginX = counter;
+						//DataChart.PlotWidth = 300;
+						//DataChart.PlotOriginY = -6000;
+						//DataChart.PlotHeight = 20000;
 					}
-					iteration.Add(counter);
-					listDataAF3.Add(data.AF3.value+7000);
-					listDataAF4.Add(data.AF4.value + 6000);
-					listDataF3.Add(data.F3.value + 5000);
-					listDataF4.Add(data.F4.value + 4000);
-					listDataF7.Add(data.F7.value + 3000);
-					listDataF8.Add(data.F8.value + 2000);
-					listDataFC5.Add(data.FC5.value + 1000);
-					listDataFC6.Add(data.FC6.value);
-					listDataT7.Add(data.T7.value - 1000);
-					listDataT8.Add(data.T8.value - 2000);
-					listDataP7.Add(data.P7.value - 3000);
-					listDataP8.Add(data.P8.value - 4000);
-					listDataO1.Add(data.O1.value - 5000);
-					listDataO2.Add(data.O2.value - 6000);
-					zeros.Add(0 - 6000);
-					LineAF3.Plot(iteration, listDataAF3);
-					LineAF4.Plot(iteration, listDataAF4);
-					LineF3.Plot(iteration, listDataF3);
-					LineF4.Plot(iteration, listDataF4);
-					LineF7.Plot(iteration, listDataF7);
-					LineF8.Plot(iteration, listDataF8);
-					LineFC5.Plot(iteration, listDataFC5);
-					LineFC6.Plot(iteration, listDataFC6);
-					LineT7.Plot(iteration, listDataT7);
-					LineT8.Plot(iteration, listDataT8);
-					LineP7.Plot(iteration, listDataP7);
-					LineP8.Plot(iteration, listDataP8);
-					LineO1.Plot(iteration, listDataO1);
-					LineO2.Plot(iteration, listDataO2);
-					LineZeros.Plot(iteration, zeros);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("error : " + ex.Message);
-				}
-			});
+					catch (Exception ex)
+					{
+						Console.WriteLine("error : " + ex.Message);
+					}
+				});
+			}
 		}
 		public void connectToPython()
 		{
 			ws = new WebSocket("ws://"+txtIP.Text+":"+txtPort.Text+"/");
 			ws.OnMessage += OnMessageResult;
 			ws.Connect();
+			isRunning = true;
+			counter = 0;
+			ws.Send("START");
+
 			counter = 0;
 		}
 
@@ -218,29 +243,11 @@ namespace EmoGuyWPF
 				//linesContainer.Children.Remove(LineP8);
 				//linesContainer.Children.Remove(LineO1);
 				//linesContainer.Children.Remove(LineO2);
-				iteration.Clear();
-				listDataAF3.Clear();
-				listDataAF4.Clear();
-				listDataF3.Clear();
-				listDataF4.Clear();
-				listDataF7.Clear();
-				listDataF8.Clear();
-				listDataFC5.Clear();
-				listDataFC6.Clear();
-				listDataT7.Clear();
-				listDataT8.Clear();
-				listDataP7.Clear();
-				listDataP8.Clear();
-				listDataO1.Clear();
-				listDataO2.Clear();
-				zeros.Clear();
+				
 				ws.Send("STOP");
 			}
 			else
 			{
-				isRunning = true;
-				counter = 0;
-				ws.Send("START");
 			}
 		}
 
@@ -255,75 +262,128 @@ namespace EmoGuyWPF
 
 			}
 		}
-		//			string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
-		//											CultureInfo.InvariantCulture);
-		//			Console.WriteLine(timestamp);
-		//			List<List<double>> listData = new List<List<double>>();
-		//			List<string> header = new List<string>();
-		//			using (var reader = new StreamReader(@"D:\magang\Project\result.csv"))
-		//			{
-		//				for (int i = 0; i < 14; i++)
-		//				{
-		//					listData.Add(new List<double>());
-		//				}
-		//				while (!reader.EndOfStream)
-		//				{
-		//					var line = reader.ReadLine();
-		//					var values = line.Split(',');
-		//					int x = 0;
-		//					foreach (var item in values)
-		//					{
-		//						try
-		//						{
-		//							listData.ElementAt(x).Add(double.Parse(item));
-		//						}
-		//						catch (Exception ex)
-		//						{
-		//							header.Add(item);
-		//							//Console.WriteLine(ex.Message);
-		//						}
-		//						x++;
-		//					}
-		//				}
 
-		//			}
-		//			string timestamp3 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
-		//											CultureInfo.InvariantCulture);
-		//			Console.WriteLine(timestamp3);
-		//			List<double> listY = new List<double>();
-		//			for (double i = 0; i < listData.ElementAt(0).Count; i++)
-		//			{
-		//				listY.Add(i* 0.00390625);
-		//			}
-		////			Console.WriteLine("Panjang list y" + listY.Count);
-		//	//		Console.WriteLine("Panjang list x" + listData.ElementAt(0).Count);
-		//			int y = 0;
-		//			foreach (var item in listData)
-		//			{
-		//				var lg = new LineGraph();
-		//				linesContainer.Children.Add(lg);
-		//				lg.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, (byte)(y * 10), 0));
-		//				lg.Description = "Data "+header.ElementAt(y);
-		//				lg.StrokeThickness = 2;
-		//				lg.Plot(listY, item);
-		//				y++;
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				
+				ws.Close();
+			}
+			catch (Exception)
+			{
 
-		//			}
-		//			string timestamp2 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
-		//											CultureInfo.InvariantCulture);
-		//			Console.WriteLine(timestamp2);
-		//			//SeriesCollection seriesCollection = new SeriesCollection();
-		//			//foreach (var item in listData)
-		//			//{
-		//			//	ChartValues<double> data = new ChartValues<double>();
-		//			//	data.AddRange(item);
-		//			//	seriesCollection.Add(new LineSeries
-		//			//	{
-		//			//		Values = data
-		//			//	});
+			}
+		}
 
-		//			//}
-		//			//EEGChart.Series = seriesCollection;
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			iteration.Clear();
+			listDataAF3.Clear();
+			listDataAF4.Clear();
+			listDataF3.Clear();
+			listDataF4.Clear();
+			listDataF7.Clear();
+			listDataF8.Clear();
+			listDataFC5.Clear();
+			listDataFC6.Clear();
+			listDataT7.Clear();
+			listDataT8.Clear();
+			listDataP7.Clear();
+			listDataP8.Clear();
+			listDataO1.Clear();
+			listDataO2.Clear();
+			zeros.Clear();
+			counter = 0;
+			LineAF3.Plot(iteration, listDataAF3);
+			LineAF4.Plot(iteration, listDataAF4);
+			LineF3.Plot(iteration, listDataF3);
+			LineF4.Plot(iteration, listDataF4);
+			LineF7.Plot(iteration, listDataF7);
+			LineF8.Plot(iteration, listDataF8);
+			LineFC5.Plot(iteration, listDataFC5);
+			LineFC6.Plot(iteration, listDataFC6);
+			LineT7.Plot(iteration, listDataT7);
+			LineT8.Plot(iteration, listDataT8);
+			LineP7.Plot(iteration, listDataP7);
+			LineP8.Plot(iteration, listDataP8);
+			LineO1.Plot(iteration, listDataO1);
+			LineO2.Plot(iteration, listDataO2);
+			LineZeros.Plot(iteration, zeros);
+		}
+
+		private void Button_Click_3(object sender, RoutedEventArgs e)
+		{
+			string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
+											CultureInfo.InvariantCulture);
+			Console.WriteLine(timestamp);
+			List<List<double>> listData = new List<List<double>>();
+			List<string> header = new List<string>();
+			using (var reader = new StreamReader(@"D:\magang\Project\result.csv"))
+			{
+				for (int i = 0; i < 14; i++)
+				{
+					listData.Add(new List<double>());
+				}
+				while (!reader.EndOfStream)
+				{
+					var line = reader.ReadLine();
+					var values = line.Split(',');
+					int x = 0;
+					foreach (var item in values)
+					{
+						try
+						{
+							listData.ElementAt(x).Add(double.Parse(item));
+						}
+						catch (Exception ex)
+						{
+							header.Add(item);
+							//Console.WriteLine(ex.Message);
+						}
+						x++;
+					}
+				}
+
+			}
+			string timestamp3 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
+											CultureInfo.InvariantCulture);
+			Console.WriteLine(timestamp3);
+			List<double> listY = new List<double>();
+			for (double i = 0; i < listData.ElementAt(0).Count; i++)
+			{
+				listY.Add(i * 0.00390625);
+			}
+			//			Console.WriteLine("Panjang list y" + listY.Count);
+			//		Console.WriteLine("Panjang list x" + listData.ElementAt(0).Count);
+			int y = 0;
+			foreach (var item in listData)
+			{
+				var lg = new LineGraph();
+				linesContainer.Children.Add(lg);
+				lg.Stroke = new SolidColorBrush(Color.FromArgb(255, 0, (byte)(y * 10), 0));
+				lg.Description = "Data " + header.ElementAt(y);
+				lg.StrokeThickness = 2;
+				lg.Plot(listY, item);
+				y++;
+
+			}
+			string timestamp2 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff",
+											CultureInfo.InvariantCulture);
+			Console.WriteLine(timestamp2);
+			//SeriesCollection seriesCollection = new SeriesCollection();
+			//foreach (var item in listData)
+			//{
+			//	ChartValues<double> data = new ChartValues<double>();
+			//	data.AddRange(item);
+			//	seriesCollection.Add(new LineSeries
+			//	{
+			//		Values = data
+			//	});
+
+			//}
+			//EEGChart.Series = seriesCollection;
+		}
 		//public void test()
 		//{
 		//	ws = new WebSocket("ws://127.0.0.1:8080");
