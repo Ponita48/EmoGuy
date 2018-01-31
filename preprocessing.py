@@ -66,7 +66,7 @@ class preprocessing:
 		for column in self.hasil.T[1:]:
 			if self.bpass is None:
 				self.bpass = np.zeros(len(column) - 1)
-			bps = self.butter_bandpass_filter(self.hasil.T[i][1:],10,30,128,2)
+			bps = self.butter_bandpass_filter(self.hasil.T[i][1:],3,30,128,2)
 			self.bpass= np.vstack((self.bpass, np.array(bps)))
 			print "bpass:", self.bpass.shape
 			i+=1
