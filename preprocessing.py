@@ -47,6 +47,7 @@ class preprocessing:
 				if j>=10:fft[j]=0
 			self.ibp = np.vstack((self.ibp, np.array(scipy.ifft(fft))))
 			i += 1
+		self.ibp=self.ibp.T
 
 
 	def butter_bandpass_filter(self,data, lowcut, highcut, sampleRate, order=2):
@@ -66,41 +67,42 @@ class preprocessing:
 		for column in self.hasil.T[1:]:
 			if self.bpass is None:
 				self.bpass = np.zeros(len(column) - 1)
-			bps = self.butter_bandpass_filter(self.hasil.T[i][1:],10,30,128,2)
+			bps = self.butter_bandpass_filter(self.hasil.T[i][1:],3,30,128,2)
 			self.bpass= np.vstack((self.bpass, np.array(bps)))
-			print "bpass:", self.bpass.shape
 			i+=1
+		self.bpass = self.bpass.T
 
 	def plot(self):
-		print "ibp: ", self.ibp.shape
 		print "hasil: ", self.hasil.shape
+		print "band", self.bpass.shape
+		print "fft: ", self.ibp.shape
 		i=1
 		j=1
-		h,w=1,1
-		plt.figure(1)
+		# h,w=1,1
+		# plt.figure(1)
 
-		# for row in self.hasil.T[i:] :
-		plt.subplots_adjust(hspace=.7)
+		# # for row in self.hasil.T[i:] :
+		# plt.subplots_adjust(hspace=.7)
 
-		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
-		plt.plot(self.hasil[:][1:])
-			# i+=1
+		# plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
+		# plt.plot(self.hasil[:][1:])
+		# 	# i+=1
 
-		# i=1
-		pylab.figure(2)
-		# for row in self.hasil.T[i:] :
-		plt.subplots_adjust(hspace=.7)
-		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		plt.plot(self.ibp.T)
-		# i+=1
+		# # i=1
+		# pylab.figure(2)
+		# # for row in self.hasil.T[i:] :
+		# plt.subplots_adjust(hspace=.7)
+		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
+		# plt.plot(self.ibp.T)
+		# # i+=1
 
-		pylab.figure(3)
-		# for row in self.hasil.T[i:] :
-		plt.subplots_adjust(hspace=.7)
-		plt.subplot(h,w,i);pylab.title("(III) Sinyal Bandpass")
-		plt.plot(self.bpass.T)
+		# pylab.figure(3)
+		# # for row in self.hasil.T[i:] :
+		# plt.subplots_adjust(hspace=.7)
+		# plt.subplot(h,w,i);pylab.title("(III) Sinyal Bandpass")
+		# plt.plot(self.bpass.T)
 
-		plt.show()
+		# plt.show()
 
 		
 
