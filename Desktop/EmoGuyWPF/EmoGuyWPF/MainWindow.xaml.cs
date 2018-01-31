@@ -149,25 +149,25 @@ namespace EmoGuyWPF
 						DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
 						counter ++;
 						lblCounter.Content = "" + counter;
-						if (counter > 1000)
-						{
-							iteration.RemoveAt(0);
-							//listDataAF3.RemoveAt(0);
-							//listDataAF4.RemoveAt(0);
-							//listDataF3.RemoveAt(0);
-							//listDataF4.RemoveAt(0);
-							//listDataF7.RemoveAt(0);
-							listDataF8.RemoveAt(0);
-							//listDataFC5.RemoveAt(0);
-							//listDataFC6.RemoveAt(0);
-							//listDataT7.RemoveAt(0);
-							//listDataT8.RemoveAt(0);
-							//listDataP7.RemoveAt(0);
-							//listDataP8.RemoveAt(0);
-							//listDataO1.RemoveAt(0);
-							//listDataO2.RemoveAt(0);
-							zeros.RemoveAt(0);
-						}
+						//if (counter > 1000)
+						//{
+						//	iteration.RemoveAt(0);
+						//	//listDataAF3.RemoveAt(0);
+						//	//listDataAF4.RemoveAt(0);
+						//	//listDataF3.RemoveAt(0);
+						//	//listDataF4.RemoveAt(0);
+						//	//listDataF7.RemoveAt(0);
+						//	listDataF8.RemoveAt(0);
+						//	//listDataFC5.RemoveAt(0);
+						//	//listDataFC6.RemoveAt(0);
+						//	//listDataT7.RemoveAt(0);
+						//	//listDataT8.RemoveAt(0);
+						//	//listDataP7.RemoveAt(0);
+						//	//listDataP8.RemoveAt(0);
+						//	//listDataO1.RemoveAt(0);
+						//	//listDataO2.RemoveAt(0);
+						//	zeros.RemoveAt(0);
+						//}
 						iteration.Add(counter);
 						//listDataAF3.Add(data.AF3.value + 700);
 						//listDataAF4.Add(data.AF4.value + 600);
