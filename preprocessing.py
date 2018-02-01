@@ -18,13 +18,30 @@ class preprocessing:
 		self.ibp = None
 		self.bpass = None
 		self.bpassABG = None
+		self.txtread = None
 		if self.name[-3:] == "csv" or self.name[-3:] == "CSV":
 			print "Reading csv file: %s" % self.name
 			self.readData()
+			self.dcOffset()
 		elif self.name[-3:] == "txt" or self.name[-3:] == "TXT":
 			print "Reading TXT file: %s" % self.name
-			self.readTxt()
-		self.dcOffset()
+			self.textRead()
+
+
+	def textRead(self):
+		i=0
+		with open(self.name) as f:
+			datas = f.readlines()
+
+			self.txtread = np.array(datas[0].split())
+			print self.txtread.shape
+			for row in datas:
+				coba=datas[i].split()
+				self.txtread = np.vstack((self.txtread, np.array(coba)))
+				i+=1
+			print self.txtread.shape
+			
+
 
 	def readData(self):
 		with open(self.name, 'r') as f:
@@ -120,11 +137,11 @@ class preprocessing:
 
 	
 
-hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
-hihi.fft()
-hihi.bandpass()
-hihi.plot()
+# hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
+# hihi.fft()
+# hihi.bandpass()
+# hihi.plot()
 
-
+lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
 # print proc.LBP1D()
