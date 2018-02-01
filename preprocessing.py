@@ -18,8 +18,12 @@ class preprocessing:
 		self.ibp = None
 		self.bpass = None
 		self.bpassABG = None
-		print("Membaca {}".format(self.name))
-		self.readData()
+		if self.name[-3:] == "csv" or self.name[-3:] == "CSV":
+			print "Reading csv file: %s" % self.name
+			self.readData()
+		elif self.name[-3:] == "txt" or self.name[-3:] == "TXT":
+			print "Reading TXT file: %s" % self.name
+			self.readTxt()
 		self.dcOffset()
 
 	def readData(self):
