@@ -20,11 +20,15 @@ def get_data(webS, delay):
     with Emotiv(display_output=False, verbose=True, write=True) as headset:
         print("Serial Number: %s" % headset.serial_number)
         print("Exporting data... press control+c to stop.")
-
+        dequeue = headset.dequeue
+        counter = 0
         while headset.running and isRunning:
             try:
-                packet = headset.dequeue()
-                thread.start_new_thread(send_data, ("%s\n" % headset.sensors, webS, ))
+                #packet = headset.dequeue()
+                dequeue()
+                counter=counter+1
+                print counter
+                thread.start_new_thread(send_data, ("%s\n" % headset.sensors['F8']['value'], webS, ))
                 #if not :
                  #   print("Stopped")
                   #  headset.stop()
@@ -34,9 +38,9 @@ def get_data(webS, delay):
             time.sleep(0.001)
         #headset.stop()
 def send_data(data, ws):
-    print(data)
+    #print(data['F8']['value'])
     try:
-        ws.sendMessage((u""+data))
+        ws((u""+data))
     except Exception, e:
         print("Error di send_data :" + str(e))
         headset.stop()
@@ -52,7 +56,7 @@ class SimpleEcho(WebSocket):
         if self.data == 'START':
             isRunning = True
             try:
-                thread.start_new_thread(get_data, (self, 2, ))
+                thread.start_new_thread(get_data, (self.sendMessage, 2, ))
                 #print("Hai")
             except Exception, e:
                 print("Error: " + str(e))

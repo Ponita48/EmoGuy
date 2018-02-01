@@ -97,27 +97,27 @@ namespace EmoGuyWPF
 			LineO1.Stroke = new SolidColorBrush(Color.FromArgb(255, 162, 142, 131)) ;
 			LineO2.Stroke = new SolidColorBrush(Color.FromArgb(255, 208, 71, 65)) ;
 			LineZeros.Stroke = new SolidColorBrush(Colors.Black) ;
-			//LineAF3.Description = "AF3";
-			//LineAF4.Description = "AF4";
-			//LineF3.Description = "F3";
-			//LineF4.Description = "F4";
-			//LineF7.Description = "F7";
+			LineAF3.Description = "AF3";
+			LineAF4.Description = "AF4";
+			LineF3.Description = "F3";
+			LineF4.Description = "F4";
+			LineF7.Description = "F7";
 			LineF8.Description = "F8";
-			//LineFC5.Description = "FC5";
-			//LineFC6.Description = "FC6";
-			//LineT7.Description = "T7";
-			//LineT8.Description = "T8";
-			//LineP7.Description = "P7";
-			//LineP8.Description = "P8";
-			//LineO1.Description = "O1";
-			//LineO2.Description = "O2";
+			LineFC5.Description = "FC5";
+			LineFC6.Description = "FC6";
+			LineT7.Description = "T7";
+			LineT8.Description = "T8";
+			LineP7.Description = "P7";
+			LineP8.Description = "P8";
+			LineO1.Description = "O1";
+			LineO2.Description = "O2";
 			LineZeros.Description = "ZEROS";
 			//linesContainer.Children.Add(LineAF3);
 			//linesContainer.Children.Add(LineAF4);
 			//linesContainer.Children.Add(LineF3);
 			//linesContainer.Children.Add(LineF4);
 			//linesContainer.Children.Add(LineF7);
-			linesContainer.Children.Add(LineF8);
+			//linesContainer.Children.Add(LineF8);
 			//linesContainer.Children.Add(LineFC5);
 			//linesContainer.Children.Add(LineFC6);
 			//linesContainer.Children.Add(LineT7);
@@ -126,7 +126,7 @@ namespace EmoGuyWPF
 			//linesContainer.Children.Add(LineP8);
 			//linesContainer.Children.Add(LineO1);
 			//linesContainer.Children.Add(LineO2);
-			linesContainer.Children.Add(LineZeros);
+			//linesContainer.Children.Add(LineZeros);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -142,55 +142,65 @@ namespace EmoGuyWPF
 			if (!old_data.Equals(e.Data))
 			{
 				old_data = e.Data;
-				this.Dispatcher.Invoke(() =>
+				//displayData(e.Data);
+				DataModel data = new DataModel();
+				bool isParsed = false;
+				try
 				{
-					try
+					data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
+					isParsed = true;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("error : " + ex.Message);
+				}
+				counter++;
+				if (counter > 1000)
+				{
+					iteration.RemoveAt(0);
+					//listDataAF3.RemoveAt(0);
+					//listDataAF4.RemoveAt(0);
+					//listDataF3.RemoveAt(0);
+					//listDataF4.RemoveAt(0);
+					//listDataF7.RemoveAt(0);
+					//listDataF8.RemoveAt(0);
+					//listDataFC5.RemoveAt(0);
+					//listDataFC6.RemoveAt(0);
+					//listDataT7.RemoveAt(0);
+					//listDataT8.RemoveAt(0);
+					//listDataP7.RemoveAt(0);
+					//listDataP8.RemoveAt(0);
+					//listDataO1.RemoveAt(0);
+					//listDataO2.RemoveAt(0);
+					//zeros.RemoveAt(0);
+				}
+				//iteration.Add(counter);
+				//listDataAF3.Add(data.AF3.value + 700);
+				//listDataAF4.Add(data.AF4.value + 600);
+				//listDataF3.Add(data.F3.value + 500);
+				//listDataF4.Add(data.F4.value + 400);
+				//listDataF7.Add(data.F7.value + 300);
+				//listDataF8.Add(data.F8.value + 200);
+				//listDataF8.Add(data.F8.value);
+				//listDataFC5.Add(data.FC5.value + 100);
+				//listDataFC6.Add(data.FC6.value);
+				//listDataT7.Add(data.T7.value - 100);
+				//listDataT8.Add(data.T8.value - 200);
+				//listDataP7.Add(data.P7.value - 300);
+				//listDataP8.Add(data.P8.value - 400);
+				//listDataO1.Add(data.O1.value - 500);
+				//listDataO2.Add(data.O2.value - 600);
+				zeros.Add(0 - 600);
+				if (isParsed)
+				{
+					this.Dispatcher.Invoke(() =>
 					{
-						DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
-						counter ++;
-						lblCounter.Content = "" + counter;
-						if (counter > 1000)
-						{
-							iteration.RemoveAt(0);
-							//listDataAF3.RemoveAt(0);
-							//listDataAF4.RemoveAt(0);
-							//listDataF3.RemoveAt(0);
-							//listDataF4.RemoveAt(0);
-							//listDataF7.RemoveAt(0);
-							listDataF8.RemoveAt(0);
-							//listDataFC5.RemoveAt(0);
-							//listDataFC6.RemoveAt(0);
-							//listDataT7.RemoveAt(0);
-							//listDataT8.RemoveAt(0);
-							//listDataP7.RemoveAt(0);
-							//listDataP8.RemoveAt(0);
-							//listDataO1.RemoveAt(0);
-							//listDataO2.RemoveAt(0);
-							zeros.RemoveAt(0);
-						}
-						iteration.Add(counter);
-						//listDataAF3.Add(data.AF3.value + 700);
-						//listDataAF4.Add(data.AF4.value + 600);
-						//listDataF3.Add(data.F3.value + 500);
-						//listDataF4.Add(data.F4.value + 400);
-						//listDataF7.Add(data.F7.value + 300);
-						//listDataF8.Add(data.F8.value + 200);
-						listDataF8.Add(data.F8.value);
-						//listDataFC5.Add(data.FC5.value + 100);
-						//listDataFC6.Add(data.FC6.value);
-						//listDataT7.Add(data.T7.value - 100);
-						//listDataT8.Add(data.T8.value - 200);
-						//listDataP7.Add(data.P7.value - 300);
-						//listDataP8.Add(data.P8.value - 400);
-						//listDataO1.Add(data.O1.value - 500);
-						//listDataO2.Add(data.O2.value - 600);
-						zeros.Add(0 - 600);
 						//LineAF3.Plot(iteration, listDataAF3);
 						//LineAF4.Plot(iteration, listDataAF4);
 						//LineF3.Plot(iteration, listDataF3);
 						//LineF4.Plot(iteration, listDataF4);
 						//LineF7.Plot(iteration, listDataF7);
-						LineF8.Plot(iteration, listDataF8);
+						//LineF8.Plot(iteration, listDataF8);
 						//LineFC5.Plot(iteration, listDataFC5);
 						//LineFC6.Plot(iteration, listDataFC6);
 						//LineT7.Plot(iteration, listDataT7);
@@ -199,17 +209,16 @@ namespace EmoGuyWPF
 						//LineP8.Plot(iteration, listDataP8);
 						//LineO1.Plot(iteration, listDataO1);
 						//LineO2.Plot(iteration, listDataO2);
-						LineZeros.Plot(iteration, zeros);
+						//LineZeros.Plot(iteration, zeros);
+						lblCounter.Content = "" + counter;
 						//DataChart.PlotOriginX = counter;
 						//DataChart.PlotWidth = 300;
 						//DataChart.PlotOriginY = -6000;
 						//DataChart.PlotHeight = 20000;
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine("error : " + ex.Message);
-					}
-				});
+
+					});
+				}
+
 			}
 		}
 		public void connectToPython()
@@ -223,7 +232,77 @@ namespace EmoGuyWPF
 
 			counter = 0;
 		}
-
+		public async Task displayData(string dataString)
+		{
+			this.Dispatcher.Invoke(() =>
+			{
+				try
+				{
+					DataModel data = new JavaScriptSerializer().Deserialize<DataModel>(dataString);
+					counter++;
+					lblCounter.Content = "" + counter;
+					if (counter > 1000)
+					{
+						iteration.RemoveAt(0);
+						//listDataAF3.RemoveAt(0);
+						//listDataAF4.RemoveAt(0);
+						//listDataF3.RemoveAt(0);
+						//listDataF4.RemoveAt(0);
+						//listDataF7.RemoveAt(0);
+						listDataF8.RemoveAt(0);
+						//listDataFC5.RemoveAt(0);
+						//listDataFC6.RemoveAt(0);
+						//listDataT7.RemoveAt(0);
+						//listDataT8.RemoveAt(0);
+						//listDataP7.RemoveAt(0);
+						//listDataP8.RemoveAt(0);
+						//listDataO1.RemoveAt(0);
+						//listDataO2.RemoveAt(0);
+						zeros.RemoveAt(0);
+					}
+					iteration.Add(counter);
+					//listDataAF3.Add(data.AF3.value + 700);
+					//listDataAF4.Add(data.AF4.value + 600);
+					//listDataF3.Add(data.F3.value + 500);
+					//listDataF4.Add(data.F4.value + 400);
+					//listDataF7.Add(data.F7.value + 300);
+					//listDataF8.Add(data.F8.value + 200);
+					listDataF8.Add(data.F8.value);
+					//listDataFC5.Add(data.FC5.value + 100);
+					//listDataFC6.Add(data.FC6.value);
+					//listDataT7.Add(data.T7.value - 100);
+					//listDataT8.Add(data.T8.value - 200);
+					//listDataP7.Add(data.P7.value - 300);
+					//listDataP8.Add(data.P8.value - 400);
+					//listDataO1.Add(data.O1.value - 500);
+					//listDataO2.Add(data.O2.value - 600);
+					zeros.Add(0 - 600);
+					//LineAF3.Plot(iteration, listDataAF3);
+					//LineAF4.Plot(iteration, listDataAF4);
+					//LineF3.Plot(iteration, listDataF3);
+					//LineF4.Plot(iteration, listDataF4);
+					//LineF7.Plot(iteration, listDataF7);
+					LineF8.Plot(iteration, listDataF8);
+					//LineFC5.Plot(iteration, listDataFC5);
+					//LineFC6.Plot(iteration, listDataFC6);
+					//LineT7.Plot(iteration, listDataT7);
+					//LineT8.Plot(iteration, listDataT8);
+					//LineP7.Plot(iteration, listDataP7);
+					//LineP8.Plot(iteration, listDataP8);
+					//LineO1.Plot(iteration, listDataO1);
+					//LineO2.Plot(iteration, listDataO2);
+					LineZeros.Plot(iteration, zeros);
+					//DataChart.PlotOriginX = counter;
+					//DataChart.PlotWidth = 300;
+					//DataChart.PlotOriginY = -6000;
+					//DataChart.PlotHeight = 20000;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("error : " + ex.Message);
+				}
+			});
+		}
 		private void StartButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (isRunning)
