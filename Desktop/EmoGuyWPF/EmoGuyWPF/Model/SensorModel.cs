@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmoGuyWPF.Model
 {
-	public class SensorModel
+	public struct SensorModel
 	{
 		double _quality, _value;
 

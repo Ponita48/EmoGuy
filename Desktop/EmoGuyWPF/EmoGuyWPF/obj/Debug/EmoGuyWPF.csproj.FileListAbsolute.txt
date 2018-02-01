@@ -72,3 +72,38 @@ E:\UNPAD\Magang\LIPI 2017\git\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGu
 E:\UNPAD\Magang\LIPI 2017\git\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.csproj.CoreCompileInputs.cache
 E:\UNPAD\Magang\LIPI 2017\git\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.exe
 E:\UNPAD\Magang\LIPI 2017\git\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.pdb
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\EmoGuyWPF.exe.config
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\EmoGuyWPF.exe
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\EmoGuyWPF.pdb
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\InteractiveDataDisplay.WPF.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\MaterialDesignColors.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\Microsoft.Maps.MapControl.WPF.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Interfaces.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Windows.Threading.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\websocket-sharp.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Linq.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Core.dll
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\InteractiveDataDisplay.WPF.pdb
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\MaterialDesignColors.pdb
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\Microsoft.Maps.MapControl.WPF.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Interfaces.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Windows.Threading.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\websocket-sharp.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Linq.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\bin\Debug\System.Reactive.Core.xml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.csprojResolveAssemblyReference.cache
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\MainWindow.g.cs
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\App.g.cs
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF_MarkupCompile.cache
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF_MarkupCompile.lref
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\App.baml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\MainWindow.baml
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.g.resources
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.Properties.Resources.resources
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.csproj.GenerateResource.Cache
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.csproj.CoreCompileInputs.cache
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.exe
+D:\magang\master\EmoGuy\Desktop\EmoGuyWPF\EmoGuyWPF\obj\Debug\EmoGuyWPF.pdb

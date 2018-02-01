@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmoGuyWPF.Model
 {
-	public class DataModel
+	public struct DataModel
 	{
 		SensorModel _AF3, _AF4, _F3, _F4, _P7, _FC6, _F7, _F8, _T7, _P8, _FC5, _T8, _O2, _O1;
 

@@ -17,7 +17,10 @@ class preprocessing:
 		self.hasil = np.array(self.header)
 		self.ibp = None
 		self.bpass = None
+		self.bpassABG = None
 		print("Membaca {}".format(self.name))
+		self.readData()
+		self.dcOffset()
 
 	def readData(self):
 		with open(self.name, 'r') as f:
@@ -41,8 +44,6 @@ class preprocessing:
 				self.ibp = np.zeros(len(column) - 1)    
 			# FFT
 			fft = scipy.fft(self.hasil.T[i][1:])
-			# print "ibp:", self.ibp.shape
-			print "fft:", fft.shape
 			for j in range(0, len(fft)):
 				if j>=10:fft[j]=0
 			self.ibp = np.vstack((self.ibp, np.array(scipy.ifft(fft))))
@@ -64,13 +65,24 @@ class preprocessing:
 
 	def bandpass(self):
 		i=1;
+		cutoff=[1,4,8,12,30]
 		for column in self.hasil.T[1:]:
 			if self.bpass is None:
 				self.bpass = np.zeros(len(column) - 1)
+			if self.bpassABG is None:
+				self.bpassABG = np.zeros(len(column) - 1)
 			bps = self.butter_bandpass_filter(self.hasil.T[i][1:],3,30,128,2)
 			self.bpass= np.vstack((self.bpass, np.array(bps)))
 			i+=1
+		for x in range(0,4):
+			bpastemp = self.butter_bandpass_filter(self.hasil.T[1][1:],cutoff[x],cutoff[x+1],128,2)
+			if(np.array_equal(self.bpassABG,np.zeros(len(column)-1))):
+				self.bpassABG = np.array(bpastemp)
+			else:
+				self.bpassABG= np.vstack((self.bpassABG,np.array(bpastemp)))
+		
 		self.bpass = self.bpass.T
+		self.bpassABG = self.bpassABG.T
 
 	def plot(self):
 		print "hasil: ", self.hasil.shape
@@ -78,39 +90,33 @@ class preprocessing:
 		print "fft: ", self.ibp.shape
 		i=1
 		j=1
-		# h,w=1,1
-		# plt.figure(1)
+		h,w=1,1
+		plt.figure(1)
+		plt.subplots_adjust(hspace=.7)
 
-		# # for row in self.hasil.T[i:] :
-		# plt.subplots_adjust(hspace=.7)
+		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
+		plt.plot(self.hasil[:][1:])
 
-		# plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
-		# plt.plot(self.hasil[:][1:])
-		# 	# i+=1
+		pylab.figure(2)
+		plt.subplots_adjust(hspace=.7)
+		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
+		plt.plot(self.ibp)
 
-		# # i=1
-		# pylab.figure(2)
-		# # for row in self.hasil.T[i:] :
-		# plt.subplots_adjust(hspace=.7)
-		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		# plt.plot(self.ibp.T)
-		# # i+=1
-
-		# pylab.figure(3)
-		# # for row in self.hasil.T[i:] :
-		# plt.subplots_adjust(hspace=.7)
-		# plt.subplot(h,w,i);pylab.title("(III) Sinyal Bandpass")
-		# plt.plot(self.bpass.T)
-
-		# plt.show()
+		pylab.figure(3)
+		# for row in self.hasil.T[i:] :
+		plt.subplots_adjust(hspace=.7)
+		
+		namaSinyal=['Delta','Theta','Alpha','Beta']
+		for x in range(0,4):
+			plt.subplot(4,1,x+1);pylab.title('Sinyal ' + namaSinyal[x])
+			plt.plot(self.bpassABG.T[x])
+		plt.show()
 
 		
 
 	
 
 hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
-hihi.readData()
-hihi.dcOffset()
 hihi.fft()
 hihi.bandpass()
 hihi.plot()
