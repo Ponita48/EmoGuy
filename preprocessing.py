@@ -30,7 +30,6 @@ class preprocessing:
 			self.textRead()
 			print time.time() - start
 
-<<<<<<< HEAD
 	# def textRead(self):
 	# 	i=1
 	# 	with open(self.name) as f:
@@ -42,7 +41,6 @@ class preprocessing:
 		# 	self.txtread = np.vstack((self.txtread, np.array(coba)))
 		# 	i+=1
 		# print self.txtread.shape
-=======
 
 	def textRead(self):
 		with open(self.name) as f:
@@ -55,12 +53,11 @@ class preprocessing:
 				for x in coba:
 					cobaNo = np.hstack((cobaNo, float(x)))
 				self.txtread = np.vstack((self.txtread, np.array(cobaNo[1:])))
-			print self.txtread.shape
 			print self.txtread[0]
 			print self.txtread[1]
 			self.hasil = np.array(self.txtread).T
+			print "Hasil Shape: ", self.hasil.shape
 
->>>>>>> 1c394edb223ea43f927506f5b979420b75932535
 	def readData(self):
 		with open(self.name, 'r') as f:
 			reader = csv.DictReader(f)
@@ -122,9 +119,9 @@ class preprocessing:
 		return b, a
 
 	def bandpass(self):
-		i=1;
 		cutoff=[1,4,8,12,30]
 		if self.name[-3:] == "csv" or self.name[-3:] == "CSV":
+			i=1
 			for column in self.hasil.T[1:]:
 				if self.bpass is None:
 					self.bpass = np.zeros(len(column) - 1)
@@ -140,12 +137,12 @@ class preprocessing:
 				else:
 					self.bpassABG= np.vstack((self.bpassABG,np.array(bpastemp)))
 		elif self.name[-3:] == "txt" or self.name[-3:] == "TXT":
+			i=0
 			for column in self.hasil.T[:]:
 				if self.bpass is None:
-					self.bpass = np.zeros(len(column) -1)
+					self.bpass = np.zeros(len(column))
 				if self.bpassABG is None:
 					self.bpassABG = np.zeros(len(column) -1)
-				print self.bpass.shape
 				bps = self.butter_bandpass_filter(self.hasil.T[i][:],0.5,30,500,2)
 				self.bpass= np.vstack((self.bpass, np.array(bps)))
 				i+=1
@@ -161,7 +158,7 @@ class preprocessing:
 	def plot(self):
 		print "hasil: ", self.hasil.shape
 		print "band", self.bpass.shape
-		print "fft: ", self.ibp.shape
+		# print "fft: ", self.ibp.shape
 		i=1
 		j=1
 		h,w=1,1
@@ -169,12 +166,12 @@ class preprocessing:
 		plt.subplots_adjust(hspace=.7)
 
 		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
-		plt.plot(self.hasil[:][1:])
+		plt.plot(self.hasil[1][1:])
 
-		plt.figure(2)
-		plt.subplots_adjust(hspace=.7)
-		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		plt.plot(self.ibp)
+		# plt.figure(2)
+		# plt.subplots_adjust(hspace=.7)
+		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
+		# plt.plot(self.ibp)
 
 		# plt.figure(3)
 		# plt.subplots_adjust(hspace=.7)
@@ -184,10 +181,10 @@ class preprocessing:
 		# 	plt.subplot(4,1,x+1);pylab.title('Sinyal ' + namaSinyal[x])
 		# 	plt.plot(self.bpassABG.T[x])
 
-		plt.figure(4)
-		plt.subplots_adjust(hspace=.7)
-		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		plt.plot(self.bpass)
+		# plt.figure(4)
+		# plt.subplots_adjust(hspace=.7)
+		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
+		# plt.plot(self.bpass.T)
 
 		plt.show()
 
@@ -195,17 +192,15 @@ class preprocessing:
 
 	
 
-hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
-hihi.fft()
-hihi.bandpass()
-hihi.plot()
+# hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
+# hihi.fft()
+# hihi.bandpass()
+# hihi.plot()
 
-<<<<<<< HEAD
 # lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
-=======
+
 lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 lala.bandpass()
 lala.plot()
->>>>>>> 1c394edb223ea43f927506f5b979420b75932535
 
 # print proc.LBP1D()
