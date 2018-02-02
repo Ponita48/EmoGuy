@@ -27,12 +27,12 @@ def get_data(webS, delay):
             try:
                 #packet = headset.dequeue()
                 dequeue()
-                print "test"
-                if old_data != ("%s\n" % headset.sensors['F8']['value']) :
-                    old_data = "%s\n" % headset.sensors['F8']['value']
+                #print "test"
+                if old_data != ("%s\n" % headset.sensors) :
+                    old_data = "%s\n" % headset.sensors
                     counter=counter+1
                     print counter
-                    thread.start_new_thread(send_data, ("%s\n" % headset.sensors['F8']['value'], webS, ))
+                    thread.start_new_thread(send_data, ("%s\n" % headset.sensors, webS, ))
                 #if not :
                  #   print("Stopped")
                   #  headset.stop()
