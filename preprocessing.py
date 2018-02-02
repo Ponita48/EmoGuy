@@ -15,11 +15,10 @@ class preprocessing:
 		start = time.time()
 		self.name = name
 		self.header = ['Timestamp', 'F3 Value','FC5 Value','F7 Value','T7 Value','P7 Value','O1 Value','O2 Value','P8 Value','T8 Value','F8 Value','AF4 Value','FC6 Value','F4 Value','AF3 Value']
-		self.hasil = np.array(self.header)
+		self.hasil = None
 		self.ibp = None
 		self.bpass = None
 		self.bpassABG = None
-		self.txtread = None
 		if self.name[-3:] == "csv" or self.name[-3:] == "CSV":
 			print "Reading csv file: %s" % self.name
 			self.readData()
@@ -30,35 +29,17 @@ class preprocessing:
 			self.textRead()
 			print time.time() - start
 
-	# def textRead(self):
-	# 	i=1
-	# 	with open(self.name) as f:
-	# 		datas = f.readlines()
-	# 	self.txtread = np.array(datas[0].split())
-	# 	print self.txtread.shape
-	# 	for row in datas:
-	# 	# 	coba=datas[i].split()
-		# 	self.txtread = np.vstack((self.txtread, np.array(coba)))
-		# 	i+=1
-		# print self.txtread.shape
-
 	def textRead(self):
 		with open(self.name) as f:
 			for row in f:
-				if self.txtread is None:
-					self.txtread = row.split()
+				if self.hasil is None:
+					self.hasil = row.split()
 					continue
 				coba=row.split()
-				cobaNo = np.array([0])
-				for x in coba:
-					cobaNo = np.hstack((cobaNo, float(x)))
-				self.txtread = np.vstack((self.txtread, np.array(cobaNo[1:])))
-			print self.txtread[0]
-			print self.txtread[1]
-			self.hasil = np.array(self.txtread).T
-			print "Hasil Shape: ", self.hasil.shape
+				self.hasil = np.vstack((self.hasil, np.array(coba)))
 
 	def readData(self):
+		self.hasil = np.array(self.header)
 		with open(self.name, 'r') as f:
 			reader = csv.DictReader(f)
 			for row in reader:
@@ -80,9 +61,8 @@ class preprocessing:
 
 
 	def fft(self):
-		i = 1
-
 		if self.name[-3:] == "csv" or self.name[-3:] == "CSV":
+			i = 1
 			for column in self.hasil.T[1:]:
 				if self.ibp is None:
 					self.ibp = np.zeros(len(column) - 1)    
@@ -93,9 +73,10 @@ class preprocessing:
 				self.ibp = np.vstack((self.ibp, np.array(scipy.ifft(fft))))
 				i += 1
 		elif self.name[-3:] == "txt" or self.name[-3:] == "TXT":
+			i = 0
 			for column in self.hasil.T[:]:
 				if self.ibp is None:
-					self.ibp = np.zeros(len(column) - 1)    
+					self.ibp = np.zeros(len(column)) 
 				# FFT
 				fft = scipy.fft(self.hasil.T[i][:])
 				for j in range(0, len(fft)):
@@ -155,37 +136,11 @@ class preprocessing:
 		self.bpass = self.bpass.T
 		self.bpassABG = self.bpassABG.T
 
-	def plot(self):
-		print "hasil: ", self.hasil.shape
-		print "band", self.bpass.shape
-		# print "fft: ", self.ibp.shape
-		i=1
-		j=1
-		h,w=1,1
+	def plot(self, data=None):
 		plt.figure(1)
-		plt.subplots_adjust(hspace=.7)
-
-		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
-		plt.plot(self.hasil[1][1:])
-
-		# plt.figure(2)
-		# plt.subplots_adjust(hspace=.7)
-		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		# plt.plot(self.ibp)
-
-		# plt.figure(3)
-		# plt.subplots_adjust(hspace=.7)
+		plt.title("Data Plot")
+		plt.plot(data.astype(np.float))
 		
-		# namaSinyal=['Delta','Theta','Alpha','Beta']
-		# for x in range(0,4):
-		# 	plt.subplot(4,1,x+1);pylab.title('Sinyal ' + namaSinyal[x])
-		# 	plt.plot(self.bpassABG.T[x])
-
-		# plt.figure(4)
-		# plt.subplots_adjust(hspace=.7)
-		# plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
-		# plt.plot(self.bpass.T)
-
 		plt.show()
 
 		
@@ -200,7 +155,11 @@ class preprocessing:
 # lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
 lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
+# lala.fft()
 lala.bandpass()
-lala.plot()
+# lala.plot(lala.hasil)
+lala.plot(lala.bpass)
+# lala.plot(lala.ibp)
+# lala.plot(processing.LBP1D(lala.ibp))
 
 # print proc.LBP1D()
