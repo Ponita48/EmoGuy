@@ -163,7 +163,7 @@ class preprocessing:
 		j=1
 		h,w=1,1
 		plt.figure(1)
-		plt.subplots_adjust(hspace=.7)
+		# plt.subplots_adjust(hspace=.7)
 
 		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
 		plt.plot(self.hasil[1][1:])
@@ -192,15 +192,15 @@ class preprocessing:
 
 	
 
-# hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
-# hihi.fft()
-# hihi.bandpass()
-# hihi.plot()
+hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
+hihi.fft()
+hihi.bandpass()
+hihi.plot()
 
 # lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
-lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
-lala.bandpass()
-lala.plot()
+# lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
+# lala.bandpass()
+# lala.plot()
 
 # print proc.LBP1D()
