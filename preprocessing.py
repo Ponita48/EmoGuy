@@ -27,22 +27,17 @@ class preprocessing:
 			print "Reading TXT file: %s" % self.name
 			self.textRead()
 
-
-	def textRead(self):
-		i=0
-		with open(self.name) as f:
-			datas = f.readlines()
-
-			self.txtread = np.array(datas[0].split())
-			print self.txtread.shape
-			for row in datas:
-				coba=datas[i].split()
-				self.txtread = np.vstack((self.txtread, np.array(coba)))
-				i+=1
-			print self.txtread.shape
-			
-
-
+	# def textRead(self):
+	# 	i=1
+	# 	with open(self.name) as f:
+	# 		datas = f.readlines()
+	# 	self.txtread = np.array(datas[0].split())
+	# 	print self.txtread.shape
+	# 	for row in datas:
+	# 	# 	coba=datas[i].split()
+		# 	self.txtread = np.vstack((self.txtread, np.array(coba)))
+		# 	i+=1
+		# print self.txtread.shape
 	def readData(self):
 		with open(self.name, 'r') as f:
 			reader = csv.DictReader(f)
@@ -118,30 +113,35 @@ class preprocessing:
 		plt.subplot(h,w,i);plt.title("(I) Sinyal Asli")
 		plt.plot(self.hasil[:][1:])
 
-		pylab.figure(2)
+		plt.figure(2)
 		plt.subplots_adjust(hspace=.7)
 		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
 		plt.plot(self.ibp)
 
-		pylab.figure(3)
-		# for row in self.hasil.T[i:] :
-		plt.subplots_adjust(hspace=.7)
+		# plt.figure(3)
+		# plt.subplots_adjust(hspace=.7)
 		
-		namaSinyal=['Delta','Theta','Alpha','Beta']
-		for x in range(0,4):
-			plt.subplot(4,1,x+1);pylab.title('Sinyal ' + namaSinyal[x])
-			plt.plot(self.bpassABG.T[x])
+		# namaSinyal=['Delta','Theta','Alpha','Beta']
+		# for x in range(0,4):
+		# 	plt.subplot(4,1,x+1);pylab.title('Sinyal ' + namaSinyal[x])
+		# 	plt.plot(self.bpassABG.T[x])
+
+		plt.figure(4)
+		plt.subplots_adjust(hspace=.7)
+		plt.subplot(h,w,i);pylab.title("(II) Sinyal FFT")
+		plt.plot(self.bpass)
+
 		plt.show()
 
 		
 
 	
 
-# hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
-# hihi.fft()
-# hihi.bandpass()
-# hihi.plot()
+hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
+hihi.fft()
+hihi.bandpass()
+hihi.plot()
 
-lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
+# lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
 # print proc.LBP1D()
