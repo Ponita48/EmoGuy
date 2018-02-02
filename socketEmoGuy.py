@@ -13,9 +13,10 @@ from emokit.emotiv import Emotiv
 if platform.system() == "Windows":
     pass
 isRunning = False
+
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 def get_data(webS, delay):
-    global old_data
+    old_data = ""
     print "Connection Started at"
     with Emotiv(display_output=False, verbose=True, write=True) as headset:
         print("Serial Number: %s" % headset.serial_number)
@@ -26,9 +27,12 @@ def get_data(webS, delay):
             try:
                 #packet = headset.dequeue()
                 dequeue()
-                counter=counter+1
-                print counter
-                thread.start_new_thread(send_data, ("%s\n" % headset.sensors['F8']['value'], webS, ))
+                print "test"
+                if old_data != ("%s\n" % headset.sensors['F8']['value']) :
+                    old_data = "%s\n" % headset.sensors['F8']['value']
+                    counter=counter+1
+                    print counter
+                    thread.start_new_thread(send_data, ("%s\n" % headset.sensors['F8']['value'], webS, ))
                 #if not :
                  #   print("Stopped")
                   #  headset.stop()
@@ -38,7 +42,7 @@ def get_data(webS, delay):
             time.sleep(0.001)
         #headset.stop()
 def send_data(data, ws):
-    #print(data['F8']['value'])
+    #print(data)
     try:
         ws((u""+data))
     except Exception, e:
