@@ -3,15 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:d3="clr-namespace:InteractiveDataDisplay.WPF;assembly=InteractiveDataDisplay.WPF"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmoGuyWPF"
+		xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Closed="Window_Closed" Height="768" Width="1280">
 	<Grid>
-		<d3:Chart Name="DataChart" BottomTitle="Argument"  LeftTitle="Function" Margin="0,0,218,0">
-			<Grid Name="linesContainer"/>
-		</d3:Chart>
 		<TextBox Name="txtIP" materialDesign:HintAssist.Hint="e.g. : 127.0.0.1" HorizontalAlignment="Right" Height="35" Margin="0,41,10,0" TextWrapping="Wrap"  Text="127.0.0.1" VerticalAlignment="Top" Width="203"/>
 		<TextBox Name="txtPort" materialDesign:HintAssist.Hint="e.g. : 8080" HorizontalAlignment="Right" Height="33" Margin="0,112,10,0" TextWrapping="Wrap" Text="8080" VerticalAlignment="Top" Width="203"/>
 		<Label Content="IP" HorizontalAlignment="Right" Margin="0,10,155,0" VerticalAlignment="Top" Width="58"/>
@@ -45,5 +42,68 @@
 		<Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<Label Content="Displayed Data Rate" HorizontalAlignment="Right" Margin="0,150,95,0" VerticalAlignment="Top"/>
 		<Button Content="Reset" HorizontalAlignment="Right" Margin="0,241,10,0" VerticalAlignment="Top" Width="202" Click="Button_Click_2"/>
+		<charting:Chart DockPanel.Dock="Bottom" Margin="0,0,218,49">
+			<!--<charting:LineSeries
+                    ItemsSource="{Binding Path=Data}"
+                    IndependentValuePath="Date"
+                    DependentValuePath="Value"/>-->
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataAF3}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataAF4}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataF3}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataF4}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataP7}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataP8}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataFC5}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataFC6}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataF7}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataF8}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DatT7}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataT8}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataO1}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:AreaSeries 
+                    ItemsSource="{Binding Path=DataO2}"  IsSelectionEnabled="False" 
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+		</charting:Chart>
+
 	</Grid>
 </Window>
