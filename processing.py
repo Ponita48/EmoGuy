@@ -48,4 +48,4 @@ def wavelet(data=None):
 			coeffs = pywt.wavedec(col, 'db1', level=5)
 			recon = pywt.waverec(coeffs, 'db1')
 			ret_val = np.vstack((ret_val, np.array(recon)))
-		return ret_val[1:]
+		return ret_val[1:].T
