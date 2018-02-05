@@ -154,11 +154,12 @@ class preprocessing:
 
 # lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
-lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
-# lala.fft()
-lala.bandpass()
+lala = preprocessing('4_diffrent_pre.TXT')
+lala.fft()
+# lala.bandpass()
+
 # lala.plot(lala.hasil)
-lala.plot(lala.bpass)
+lala.plot(lala.ibp)
 # lala.plot(lala.ibp)
 # lala.plot(processing.LBP1D(lala.ibp))
 
