@@ -39,68 +39,172 @@
 		<Label Name="lblCounter" Content="0" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="83" Width="94" FontSize="20"/>
 		<Slider Name="SlideRate" HorizontalAlignment="Right" Margin="0,181,10,0" VerticalAlignment="Top" Width="202" Maximum="1000" Minimum="100" LargeChange="10" SmallChange="1" Value="300"/>
 		<Button Content="Disconnect" HorizontalAlignment="Right" Margin="0,204,10,0" VerticalAlignment="Top" Width="110" Click="Button_Click_1"/>
-		<Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<Label Content="Displayed Data Rate" HorizontalAlignment="Right" Margin="0,150,95,0" VerticalAlignment="Top"/>
 		<Button Content="Reset" HorizontalAlignment="Right" Margin="0,241,10,0" VerticalAlignment="Top" Width="202" Click="Button_Click_2"/>
-		<charting:Chart DockPanel.Dock="Bottom" Margin="0,0,218,49">
-			<!--<charting:LineSeries
-                    ItemsSource="{Binding Path=Data}"
-                    IndependentValuePath="Date"
-                    DependentValuePath="Value"/>-->
-			<charting:AreaSeries 
+		<!--<ScrollViewer Margin="0,0,218,98">
+			<Grid Height="1303">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<charting:Chart   Title="AF3">
+					<charting:LineSeries 
                     ItemsSource="{Binding Path=DataAF3}"  IsSelectionEnabled="False" 
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataAF4}"  IsSelectionEnabled="False" 
+				</charting:Chart>
+				<charting:Chart Title="AF4" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="F3" Grid.Row="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="F4" Grid.Row="1" Grid.Column="1" >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="P7" Grid.Row="2"  >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="P8" Grid.Row="2" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="FC5" Grid.Row="3"    >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="FC6" Grid.Row="3" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="F7" Grid.Row="4"    >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="F8" Grid.Row="4" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="T7" Grid.Row="5"    >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="T8" Grid.Row="5" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="O1" Grid.Row="6"    >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+				<charting:Chart Title="O2" Grid.Row="6" Grid.Column="1"   >
+					<charting:LineSeries 
+						ItemsSource="{Binding DataAF3}"  IsSelectionEnabled="False" 
+						IndependentValueBinding="{Binding Date}"
+						DependentValueBinding="{Binding Value}"/>
+				</charting:Chart>
+			</Grid>
+
+		</ScrollViewer>-->
+		<charting:Chart DockPanel.Dock="Bottom" Margin="0,0,218,49">
+			
+		<!--<charting:LineSeries
+                    ItemsSource="{Binding Path=Data}"
+                    IndependentValuePath="Date"
+			
+                    DependentValuePath="Value"/>-->
+		
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataAF3}"  IsSelectionEnabled="False" Title="AF3"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataF3}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataAF4}"  IsSelectionEnabled="False" Title="AF4"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataF4}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataF3}"  IsSelectionEnabled="False" Title="F3"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataP7}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataF4}"  IsSelectionEnabled="False" Title="F4"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataP8}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataP7}"  IsSelectionEnabled="False" Title="P7"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataFC5}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataP8}"  IsSelectionEnabled="False" Title="P8"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataFC6}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataFC5}"  IsSelectionEnabled="False" Title="FC5"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataF7}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataFC6}"  IsSelectionEnabled="False" Title="FC6"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataF8}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataF7}"  IsSelectionEnabled="False" Title="F7"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DatT7}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataF8}"  IsSelectionEnabled="False" Title="F8"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataT8}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DatT7}"  IsSelectionEnabled="False" Title="T7"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataO1}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataT8}"  IsSelectionEnabled="False" Title="T8"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
-			<charting:AreaSeries 
-                    ItemsSource="{Binding Path=DataO2}"  IsSelectionEnabled="False" 
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataO1}"  IsSelectionEnabled="False" Title="O1"
+                    IndependentValueBinding="{Binding Date}"
+                    DependentValueBinding="{Binding Value}"/>
+			<charting:LineSeries 
+                    ItemsSource="{Binding Path=DataO2}"  IsSelectionEnabled="False" Title="O2"
                     IndependentValueBinding="{Binding Date}"
                     DependentValueBinding="{Binding Value}"/>
 		</charting:Chart>

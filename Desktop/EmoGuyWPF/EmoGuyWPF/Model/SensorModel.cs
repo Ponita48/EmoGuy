@@ -8,9 +8,9 @@ namespace EmoGuyWPF.Model
 {
 	public struct SensorModel
 	{
-		double _quality, _value;
+		float _quality, _value;
 
-		public double quality { get => _quality; set => _quality = value; }
-		public double value { get => _value; set => _value = value; }
+		public float quality { get => _quality; set => _quality = value; }
+		public float value { get => _value; set => _value = value; }
 	}
 }

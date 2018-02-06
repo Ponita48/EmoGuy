@@ -31,7 +31,7 @@ namespace EmoGuyWPF
 		bool isOK = false;
 		bool isRunning = false;
 		WebSocket ws;
-		double counter;
+		float counter;
 		string old_data = "";
 		public MainWindow()
 		{
@@ -56,6 +56,7 @@ namespace EmoGuyWPF
 				//displayData(e.Data);
 				DataModel data = new DataModel();
 				bool isParsed = false;
+				float mean = (float)4167.9950522878;
 				try
 				{
 					data = new JavaScriptSerializer().Deserialize<DataModel>(e.Data);
@@ -67,7 +68,10 @@ namespace EmoGuyWPF
 				}
 				if (isParsed)
 				{
-					
+					this.Dispatcher.Invoke(() =>
+					{
+						lblCounter.Content = counter;
+					});
 					this.Dispatcher.Invoke(() =>
 					{
 						if (counter > SlideRate.Value)
@@ -87,20 +91,20 @@ namespace EmoGuyWPF
 							DataO1.RemoveAt(0);
 							DataO2.RemoveAt(0);
 						}
-						DataAF3.Add(new Point(counter, data.AF3.value));
-						DataAF4.Add(new Point(counter, data.AF4.value));
-						DataF3.Add(new Point(counter, data.F3.value));
-						DataF4.Add(new Point(counter, data.F4.value));
-						DataP7.Add(new Point(counter, data.P7.value));
-						DataP8.Add(new Point(counter, data.P8.value));
-						DataFC5.Add(new Point(counter, data.FC5.value));
-						DataFC6.Add(new Point(counter, data.FC6.value));
-						DataF7.Add(new Point(counter, data.F7.value));
-						DataF8.Add(new Point(counter, data.F8.value));
-						DataT7.Add(new Point(counter, data.T7.value));
-						DataT8.Add(new Point(counter, data.T8.value));
-						DataO1.Add(new Point(counter, data.O1.value));
-						DataO2.Add(new Point(counter, data.O2.value));
+						DataAF3.Add(new Point(counter, data.AF3.value-mean));
+						DataAF4.Add(new Point(counter, data.AF4.value - mean));
+						DataF3.Add(new Point(counter, data.F3.value - mean));
+						DataF4.Add(new Point(counter, data.F4.value - mean));
+						DataP7.Add(new Point(counter, data.P7.value - mean));
+						DataP8.Add(new Point(counter, data.P8.value - mean));
+						DataFC5.Add(new Point(counter, data.FC5.value - mean));
+						DataFC6.Add(new Point(counter, data.FC6.value - mean));
+						DataF7.Add(new Point(counter, data.F7.value - mean));
+						DataF8.Add(new Point(counter, data.F8.value - mean));
+						DataT7.Add(new Point(counter, data.T7.value - mean));
+						DataT8.Add(new Point(counter, data.T8.value - mean));
+						DataO1.Add(new Point(counter, data.O1.value - mean));
+						DataO2.Add(new Point(counter, data.O2.value - mean));
 					});
 				}
 
@@ -273,21 +277,21 @@ namespace EmoGuyWPF
 		}
 		public class Point : DependencyObject
 		{
-			public static readonly DependencyProperty _date = DependencyProperty.Register("Date", typeof(double), typeof(Point));
-			public Point(double date, double value)
+			public static readonly DependencyProperty _date = DependencyProperty.Register("Date", typeof(float), typeof(Point));
+			public Point(float date, float value)
 			{
 				Date = date;
 				Value = value;
 			}
-			public double Date
+			public float Date
 			{
-				get { return (double)GetValue(_date); }
+				get { return (float)GetValue(_date); }
 				set { SetValue(_date, value); }
 			}
-			public static readonly DependencyProperty _value = DependencyProperty.Register("Value", typeof(double), typeof(Point));
-			public double Value
+			public static readonly DependencyProperty _value = DependencyProperty.Register("Value", typeof(float), typeof(Point));
+			public float Value
 			{
-				get { return (double)GetValue(_value); }
+				get { return (float)GetValue(_value); }
 				set { SetValue(_value, value); }
 			}
 			//private void Button_Click_3(object sender, RoutedEventArgs e)

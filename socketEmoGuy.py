@@ -23,6 +23,8 @@ def get_data(webS, delay):
         print("Exporting data... press control+c to stop.")
         dequeue = headset.dequeue
         counter = 0
+        mean = 4167.9950522878;
+
         while headset.running and isRunning:
             try:
                 #packet = headset.dequeue()
@@ -32,7 +34,7 @@ def get_data(webS, delay):
                     old_data = "%s\n" % headset.sensors
                     counter=counter+1
                     print counter
-                    thread.start_new_thread(send_data, ("%s\n" % headset.sensors, webS, ))
+                    thread.start_new_thread(send_data, ("%s\n" % (headset.sensors['F8']['value']-mean), webS, ))
                 #if not :
                  #   print("Stopped")
                   #  headset.stop()
