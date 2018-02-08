@@ -72,40 +72,43 @@ namespace EmoGuyWPF
 					{
 						lblCounter.Content = counter;
 					});
-					this.Dispatcher.Invoke(() =>
+					if (counter % int.Parse(textBoxTest.Text) == 0)
 					{
-						if (counter > SlideRate.Value)
+						this.Dispatcher.Invoke(() =>
 						{
-							DataAF3.RemoveAt(0);
-							DataAF4.RemoveAt(0);
-							DataF3.RemoveAt(0);
-							DataF4.RemoveAt(0);
-							DataP7.RemoveAt(0);
-							DataP8.RemoveAt(0);
-							DataFC5.RemoveAt(0);
-							DataFC6.RemoveAt(0);
-							DataF7.RemoveAt(0);
-							DataF8.RemoveAt(0);
-							DataT7.RemoveAt(0);
-							DataT8.RemoveAt(0);
-							DataO1.RemoveAt(0);
-							DataO2.RemoveAt(0);
-						}
-						DataAF3.Add(new Point(counter, data.AF3.value-mean));
-						DataAF4.Add(new Point(counter, data.AF4.value - mean));
-						DataF3.Add(new Point(counter, data.F3.value - mean));
-						DataF4.Add(new Point(counter, data.F4.value - mean));
-						DataP7.Add(new Point(counter, data.P7.value - mean));
-						DataP8.Add(new Point(counter, data.P8.value - mean));
-						DataFC5.Add(new Point(counter, data.FC5.value - mean));
-						DataFC6.Add(new Point(counter, data.FC6.value - mean));
-						DataF7.Add(new Point(counter, data.F7.value - mean));
-						DataF8.Add(new Point(counter, data.F8.value - mean));
-						DataT7.Add(new Point(counter, data.T7.value - mean));
-						DataT8.Add(new Point(counter, data.T8.value - mean));
-						DataO1.Add(new Point(counter, data.O1.value - mean));
-						DataO2.Add(new Point(counter, data.O2.value - mean));
-					});
+							if (counter > SlideRate.Value)
+							{
+								DataAF3.RemoveAt(0);
+								DataAF4.RemoveAt(0);
+								DataF3.RemoveAt(0);
+								DataF4.RemoveAt(0);
+								DataP7.RemoveAt(0);
+								DataP8.RemoveAt(0);
+								DataFC5.RemoveAt(0);
+								DataFC6.RemoveAt(0);
+								DataF7.RemoveAt(0);
+								DataF8.RemoveAt(0);
+								DataT7.RemoveAt(0);
+								DataT8.RemoveAt(0);
+								DataO1.RemoveAt(0);
+								DataO2.RemoveAt(0);
+							}
+							DataAF3.Add(new Point(counter, data.AF3.value - mean));
+							DataAF4.Add(new Point(counter, data.AF4.value - mean));
+							DataF3.Add(new Point(counter, data.F3.value - mean));
+							DataF4.Add(new Point(counter, data.F4.value - mean));
+							DataP7.Add(new Point(counter, data.P7.value - mean));
+							DataP8.Add(new Point(counter, data.P8.value - mean));
+							DataFC5.Add(new Point(counter, data.FC5.value - mean));
+							DataFC6.Add(new Point(counter, data.FC6.value - mean));
+							DataF7.Add(new Point(counter, data.F7.value - mean));
+							DataF8.Add(new Point(counter, data.F8.value - mean));
+							DataT7.Add(new Point(counter, data.T7.value - mean));
+							DataT8.Add(new Point(counter, data.T8.value - mean));
+							DataO1.Add(new Point(counter, data.O1.value - mean));
+							DataO2.Add(new Point(counter, data.O2.value - mean));
+						});
+					}
 				}
 
 			}
