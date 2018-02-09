@@ -23,7 +23,7 @@ def get_data(webS, delay):
         print("Exporting data... press control+c to stop.")
         dequeue = headset.dequeue
         counter = 0
-        mean = 4167.9950522878;
+        mean = 3000;
 
         while headset.running and isRunning:
             try:
