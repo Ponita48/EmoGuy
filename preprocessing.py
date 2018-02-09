@@ -139,7 +139,7 @@ class preprocessing:
 	def plot(self, data=None):
 		plt.figure(1)
 		plt.title("Data Plot")
-		plt.plot(data.astype(np.float))
+		plt.plot(data.astype(np.float),'.-')
 		
 		plt.show()
 
@@ -150,17 +150,18 @@ class preprocessing:
 # hihi = preprocessing('csv/emotiv_values_2018-01-30 09-38-29.937000.csv')
 # hihi.fft()
 # hihi.bandpass()
-# hihi.plot()
+# hihi.plot(hihi.bpassABG)
 
 # lala = preprocessing('1_rilex_close_pre_bipolar.TXT')
 
-lala = preprocessing('4_diffrent_pre.TXT')
-lala.fft()
-# lala.bandpass()
+lala = preprocessing('aihihi.csv')
+# lala.fft()
+lala.bandpass()
 
 # lala.plot(lala.hasil)
-lala.plot(lala.ibp)
+# lala.plot(lala.bpass.T[1])
+# lala.plot(lala.bpassABG)
 # lala.plot(lala.ibp)
-# lala.plot(processing.LBP1D(lala.ibp))
+lala.plot(processing.LBP1D(lala.bpass)[1])
 
 # print proc.LBP1D()
