@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 
 <meta charset="utf-8" />
+<head>
+	<title>WebSocket Test</title>
 
-<title>WebSocket Test</title>
+</head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<body>
 
-<div id="output"></div>
+	<div class="container">
+	
 
-<form name="myform">
-<p>
-<textarea name="outputtext" rows="20" cols="50"></textarea>
-</p>
-<p>
-<textarea name="inputtext" cols="50"></textarea>
-</p>
-<p>
-<textarea name="url" cols="50"></textarea>
-</p>
-<p>
-<input type="button" name=sendButton value="Send" onClick="sendText();">
-<input type="button" name=clearButton value="Clear" onClick="clearText();">
-<input type="button" name=disconnectButton value="Disconnect" onClick="doDisconnect();">
-<input type="button" name=connectButton value="Connect" onClick="doConnect();">
-</p>
-
-
-</form>
-<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
-<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-<script src="canvasjs.min.js"></script>
+		<form name="myform" style="margin:5px" class="row">
+			<p class="col">
+				<textarea name="url" class="col"></textarea>
+			</p>
+			<p class="col" >
+				<input type="button" name=connectButton value="Connect" class="btn btn-primary" onClick="doConnect();">
+				<input type="button" name=sendButton value="Start" class="btn btn-success" onClick="sendText();">
+				<input type="button" name=clearButton value="Clear" class="btn btn-info" onClick="clearText();">
+				<input type="button" name=disconnectButton value="Disconnect" class="btn btn-danger" onClick="doDisconnect();">
+			</p>
+		</form>
+		<div id="chartContainer" >
+		</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/canvasjs.min.js"></script>
 <script language="javascript" type="text/javascript">
 	var dataPointsAF3 = [];
 	var dataPointsAF4 = [];
 	var dataPointsF3 = [];
 	var dataPointsF4 = [];
 	var dataPointsF7 = [];
-	var mean = 3000;
 	var dataPointsF8 = [];
 	var dataPointsFC5 = [];
 	var dataPointsFC6 = [];
@@ -45,6 +46,7 @@
 	var dataPointsO1 = [];
 	var dataPointsO2 = [];
 	var xValue = 0;
+	var mean = 3000;
 	var chart = null;
 	var chart = new CanvasJS.Chart("chartContainer", {
 			theme: "light2",
@@ -124,7 +126,7 @@
 			}]
 		});
 	window.onload = function() {
-
+		chart.render();
 
 		
 		
@@ -132,7 +134,6 @@
 	function init()
 	{
 		document.myform.url.value = "ws://127.0.0.1:8080/"
-		document.myform.inputtext.value = "START"
 		document.myform.disconnectButton.disabled = true;
 	}
 
@@ -147,14 +148,12 @@
 
 	function onOpen(evt)
 	{
-		writeToScreen("connected\n");
 		document.myform.connectButton.disabled = true;
 		document.myform.disconnectButton.disabled = false;
 	}
 
 	function onClose(evt)
 	{
-		writeToScreen("disconnected\n");
 		document.myform.connectButton.disabled = false;
 		document.myform.disconnectButton.disabled = true;
 	}
@@ -206,8 +205,7 @@
 
 	function onError(evt)
 	{
-		writeToScreen('error: ' + evt.data + '\n');
-
+		
 		websocket.close();
 
 		document.myform.connectButton.disabled = false;
@@ -217,8 +215,7 @@
 
 	function doSend(message)
 	{
-		writeToScreen("sent: " + message + '\n'); 
-		websocket.send(message);
+		websocket.send("START");
 	}
 
 	function writeToScreen(message)
@@ -232,11 +229,24 @@
 
 
 	function sendText() {
-		doSend( document.myform.inputtext.value );
+		doSend();
 	}
 
 	function clearText() {
-		document.myform.outputtext.value = "";
+		var dataPointsAF3 = [];
+		var dataPointsAF4 = [];
+		var dataPointsF3 = [];
+		var dataPointsF4 = [];
+		var dataPointsF7 = [];
+		var dataPointsF8 = [];
+		var dataPointsFC5 = [];
+		var dataPointsFC6 = [];
+		var dataPointsP7 = [];
+		var dataPointsP8 = [];
+		var dataPointsT7 = [];
+		var dataPointsT8 = [];
+		var dataPointsO1 = [];
+		var dataPointsO2 = [];
 	}
 
 	function doDisconnect() {
