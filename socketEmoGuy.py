@@ -9,64 +9,53 @@ import socket
 import thread
 import numpy as np
 import os
-from emokit.emotiv import Emotiv
 
+from emokit.emotiv import Emotiv
+from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
+
+# Ini buat apa? if tapi isinya kosong
 if platform.system() == "Windows":
     pass
 isRunning = False
 
-from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 def get_data(webS, delay):
+    # Set default value
     header = ['F3','F4','F7','F8','AF4','AF3','FC5','FC6','P7','P8','T7','T8','O1','O2']
-    # ubahData = {'F3':np.array([]),'F4':np.array([]),'F7':np.array([]),'F8':np.array([]),'AF4':np.array([]),'AF3':np.array([]),'FC5':np.array([]),'FC6':np.array([]),'P7':np.array([]),'P8':np.array([]),'T7':np.array([]),'T8':np.array([]),'O1':np.array([]),'O2':np.array([])}
     ubahData = np.array(header)
     old_data = ""
+    vstackX = np.vstack
+    appendX = np.append
+    arrayX = np.array
+    dequeue = headset.dequeue
+    counter = 0
+    mean = 3000
+
+    # Connect to emotiv
     print "Connection Started at"
     with Emotiv(display_output=False, verbose=True, write=True) as headset:
         print("Serial Number: %s" % headset.serial_number)
         print("Exporting data... press control+c to stop.")
-        dequeue = headset.dequeue
-        counter = 0
-        mean = 3000;
-        i=0
-        vstackX = np.vstack
-        appendX = np.append
-        arrayX = np.array
         while headset.running and isRunning:
             try:
-                #packet = headset.dequeue()
                 dequeue()
-                #print "test"
                 if old_data != ("%s\n" % headset.sensors) :
                     old_data = "%s\n" % headset.sensors
+                    # counter kepake gak? kalo gak kepake hapus aja
                     counter=counter+1
-                    print counter
-                    # print headset.sensors
-                    #print headset.sensors[header[0]]['value']
+                    # print counter
+
+                    # data yang diambil real time
                     temp = headset.sensors[header[0]]['value']
-                    # for i in range (0,14):
-	                   #  ubahData[header[i]] = np.append(np.array(ubahData[header[i]]),np.array(headset.sensors[header[i]]['value']))
                     for i in range(1, 14):
                     	temp = appendX(temp, arrayX(headset.sensors[header[i]]['value']))
                     ubahData = vstackX((ubahData, temp))
-                    #print '======================================='
-                    #print ubahData
-
-                    
-                    # if(counter%100==0) :
-
                     # thread.start_new_thread(send_data, ("%s\n" % (headset.sensors['F8']['value']-mean), webS, ))
-
-                #if not :
-                 #   print("Stopped")
-                  #  headset.stop()
             except Exception, e:
                 print("Error di get_data : "+str(e))
                 headset.stop()
             time.sleep(0.001)
-        #headset.stop()
+
 def send_data(data, ws):
-    #print(data)
     try:
         ws((u""+data))
     except Exception, e:
@@ -85,7 +74,6 @@ class SimpleEcho(WebSocket):
             isRunning = True
             try:
                 thread.start_new_thread(get_data, (self.sendMessage, 2, ))
-                #print("Hai")
             except Exception, e:
                 print("Error: " + str(e))
         elif self.data == 'STOP':
@@ -98,8 +86,6 @@ class SimpleEcho(WebSocket):
         global isRunning
         isRunning = False
         print(self.address, 'closed')
-
-
 
 server = SimpleWebSocketServer('127.0.0.1', 8080, SimpleEcho)
 
