@@ -56,7 +56,7 @@ def fft(data, have_header=True):
 
 	return ibp.T
 
-def butter_bandpass_filter(ata, lowcut, highcut, sampleRate, order=2):
+def butter_bandpass_filter(data, lowcut, highcut, sampleRate, order=2):
 	b, a = butter_bandpass(lowcut, highcut, sampleRate, order=order)
 	y = lfilter(b, a, data.astype(np.float))
 	return y
@@ -69,26 +69,25 @@ def butter_bandpass(lowcut, highcut, sampleRate, order = 2):
 	return b, a
 
 def bandpass(data, have_header=True):
+	bpass, bpassABG = [], []
 	cutoff=[1,4,8,12,30]
 	if have_header:
 		i = 1
 	else:
 		i = 0
-	for column in hasil.T[have_header:]:
-		if bpass is None:
-			bpass = np.zeros(len(column) - have_header)
-		if bpassABG is None:
-			bpassABG = np.zeros(len(column) - have_header)
-		bps = butter_bandpass_filter(hasil.T[i][have_header:],3,30,128,2)
+	for column in data.T[have_header:]:
+		bpass = np.zeros(len(column) - have_header)
+		bpassABG = np.zeros(len(column) - have_header)
+		bps = butter_bandpass_filter(data.T[i][have_header:],3,30,128,2)
 		bpass= vstack((bpass, np.array(bps)))
 		i+=1
 	for x in range(0,4):
-		bpastemp = butter_bandpass_filter(hasil.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
+		bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
 		if(np.array_equal(bpassABG,np.zeros(len(column)-1))):
 			bpassABG = np.array(bpastemp)
 		else:
 			bpassABG= vstack((bpassABG,np.array(bpastemp)))
-	bpass = bpass.T
+	bpass = bpass[1:].T
 	bpassABG = bpassABG.T
 	return bpass, bpassABG
 
