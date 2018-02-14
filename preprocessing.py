@@ -40,6 +40,7 @@ def dcOffset(data, have_header=True):
 	return data
 
 def fft(data, have_header=True):
+	ibp=None
 	if have_header:
 		i = 1
 	else:
@@ -53,7 +54,7 @@ def fft(data, have_header=True):
 			if j>=10:fft[j]=0
 		ibp = vstack((ibp, np.array(scipy.ifft(fft))))
 		i += 1
-
+	ibp=np.array(ibp)
 	return ibp.T
 
 def butter_bandpass_filter(data, lowcut, highcut, sampleRate, order=2):
@@ -69,15 +70,14 @@ def butter_bandpass(lowcut, highcut, sampleRate, order = 2):
 	return b, a
 
 def bandpass(data, have_header=True):
-	bpass, bpassABG = [], []
+	bpass = np.zeros(len(data.T[0])-1)
+	bpassABG = np.zeros(len(data.T[0])-1)
 	cutoff=[1,4,8,12,30]
 	if have_header:
 		i = 1
 	else:
 		i = 0
 	for column in data.T[have_header:]:
-		bpass = np.zeros(len(column) - have_header)
-		bpassABG = np.zeros(len(column) - have_header)
 		bps = butter_bandpass_filter(data.T[i][have_header:],3,30,128,2)
 		bpass= vstack((bpass, np.array(bps)))
 		i+=1
@@ -132,7 +132,7 @@ def wavelet(data=None):
 		if data[0][0] == "Timestamp":
 			data = data[1:]
 			is_raw = True
-		ret_val = np.zeros(len(data.T[0]))
+		ret_val = np.zeros(len(data.T[0])+1)
 		for col in data.T:
 			if is_raw:
 				is_raw = False
