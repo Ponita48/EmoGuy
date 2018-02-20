@@ -10,6 +10,7 @@ import thread
 import numpy as np
 import os
 import json
+from emokit.packet import EmotivExtraPacket
 
 from emokit.emotiv import Emotiv
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
@@ -30,45 +31,62 @@ def get_data(webS, delay):
     arrayX = np.array
     zeros = np.zeros
     ubahData = arrayX(header)
-    bpass = prp.bandpass
+    bpass = prp.bandpassX
     dc_off = prp.dcOffset
     put = np.put
     dump = json.dumps
     counter = 0
     mean = 3000
     sampling = 128
-
+    bp = None
+    startThread = thread.start_new_thread
     # Connect to emotiv
     print "Connection Started at"
-    with Emotiv(display_output=False, verbose=True, write=False) as headset:
+    with Emotiv(display_output=False, verbose=True, write=True) as headset:
         dequeue = headset.dequeue
         print("Serial Number: %s" % headset.serial_number)
         print("Exporting data... press control+c to stop.")
         while headset.running and isRunning:
             try:
-                dequeue()
-                if old_data != ("%s\n" % headset.sensors) :
-                    old_data = "%s\n" % headset.sensors
+                packet = dequeue()
+                if (packet is not None) and type(packet) is not EmotivExtraPacket :
+                    # old_data = "%s\n" % headset.sensors
                     # counter kepake gak? kalo gak kepake hapus aja
                     # print counter
 
                     # data yang diambil real time
-                    temp = headset.sensors[header[0]]['value']
-                    bp_send = zeros(sampling)
-                    for i in xrange(1, 14):
-                        temp = appendX(temp, arrayX(headset.sensors[header[i]]['value']))
-                    if counter % sampling == 0 and counter is not 0:
-                        bp = dc_off(ubahData, True)
-                        bp, bpABG = bpass(bp, True)
-                        print json.dumps(bp.tolist())
-                        thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
-                        ubahData = vstackX((arrayX(header), ubahData[sampling:]))
+                    temp = arrayX([])
+                    # bp_send = zeros(sampling)
+                    for i in header:
+                        #print header[i]
+                        temp = appendX(temp, arrayX(packet.sensors[i]['value']))
+                    # if counter % sampling == 0 and counter is not 0:
+                    #     bp = dc_off(ubahData, True)
+                    #     # print bp
+                    #     # print bp.shape
+                    #     # bp, bpABG = bpass(bp,vstackX,arrayX,zeros, True)
+                    #     # bp, bpABG = bpass(bp,vstackX,arrayX,zeros, True)
+                    #     bp = bp.T
+                    #     #print dump(bp.tolist())
+                    #     thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
+                    #     ubahData = vstackX((arrayX(header), ubahData[sampling:]))
+                        # print bp
+                        # print bp.shape
+                        # print ubahData.shape
+                        # print temp
+                        # print ubahData
+                        # print bp
+                        # break
                     ubahData = vstackX((ubahData, temp))
+                    print counter
                     counter += 1
             except Exception, e:
                 print("Error di get_data : "+str(e))
                 headset.stop()
             time.sleep(0.001)
+        f = open( 'file.py', 'w' )
+        f.write( dump(bp.tolist()) )
+        f.close()
 
 def send_data(data, ws):
     try:

@@ -10,6 +10,7 @@ import thread
 import os
 from emokit.emotiv import Emotiv
 import matplotlib.pyplot as plt
+from emokit.packet import EmotivExtraPacket
 
 if platform.system() == "Windows":
 	pass
@@ -31,11 +32,12 @@ def get_data(webS, delay):
 				#packet = headset.dequeue()
 				packet = dequeue()
 				#print "test"
-				if old_data != ("%s\n" % headset.sensors) :
+				if (packet is not None) and type(packet) is not EmotivExtraPacket:
 					old_data = "%s\n" % headset.sensors
 					counter=counter+1
 					print counter
-					print "%s\n" % headset.sensors				
+					#print packet.sensors
+					# print "%s\n" % headset.sensors				
 					thread.start_new_thread(send_data, ("%s\n" % (headset.sensors), webS, ))
 				#if not :
 				 #   print("Stopped")

@@ -10,7 +10,6 @@ from scipy.fftpack import rfft, irfft, fftfreq
 
 header = ['Timestamp', 'F3 Value','FC5 Value','F7 Value','T7 Value','P7 Value','O1 Value','O2 Value','P8 Value','T8 Value','F8 Value','AF4 Value','FC6 Value','F4 Value','AF3 Value']
 vstack = np.vstack
-
 def readData(name=None):
 	print "Reading from %s data" % name[-3:]
 	if name[-3:] == "csv" or name[-3:] == "CSV":
@@ -34,9 +33,14 @@ def readData(name=None):
 
 def dcOffset(data, have_header=True):
 	i=1
-	for column in data.T[have_header:]:
-		data.T[i][have_header:] = data.T[i][have_header:].astype(np.float) - np.mean(column[have_header:].astype(np.float))	#DC Offset
-		i+=1
+	data = data[have_header:].T.astype(np.float)
+	print data
+	mean = np.mean(data)
+	data = data - mean;	
+	data = data.T
+	# for column in data.T[have_header:]:
+	# 	data.T[i][have_header:] = data.T[i][have_header:].astype(np.float) - np.mean(column[have_header:].astype(np.float))	#DC Offset
+	# 	i+=1
 	return data
 
 def fft(data, have_header=True):
@@ -73,20 +77,35 @@ def bandpass(data, have_header=True):
 	bpass = np.zeros(len(data.T[0])-1)
 	bpassABG = np.zeros(len(data.T[0])-1)
 	cutoff=[1,4,8,12,30]
-	if have_header:
-		i = 1
-	else:
-		i = 0
-	for column in data.T[have_header:]:
-		bps = butter_bandpass_filter(data.T[i][have_header:],3,30,128,2)
+	#print len(data.T[0])	
+	for column in data.T:
+		bps = butter_bandpass_filter(column[have_header:],14,30,128,2)
 		bpass= vstack((bpass, np.array(bps)))
-		i+=1
-	for x in range(0,4):
-		bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
-		if(np.array_equal(bpassABG,np.zeros(len(column)-1))):
-			bpassABG = np.array(bpastemp)
-		else:
-			bpassABG= vstack((bpassABG,np.array(bpastemp)))
+	# for x in range(0,4):
+	# 	bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
+	# 	if(np.array_equal(bpassABG,np.zeros(len(column)-1))):
+	# 		bpassABG = np.array(bpastemp)
+	# 	else:
+	# 		bpassABG= vstack((bpassABG,np.array(bpastemp)))
+	bpass = bpass[1:].T
+	bpassABG = bpassABG.T
+	return bpass, bpassABG
+
+def bandpassX(data,vstackX,arrayX,zerosX, have_header=True):
+	data = data.T
+	bpass = zerosX(len(data[0])-1)
+	bpassABG = zerosX(len(data[0])-1)
+	cutoff=[1,4,8,12,30]
+	#print len(data.T[0])	
+	for column in data:
+		bps = butter_bandpass_filter(column[have_header:],14,30,128,2)
+		bpass= vstackX((bpass, arrayX(bps)))
+	# for x in range(0,4):
+	# 	bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
+	# 	if(np.array_equal(bpassABG,np.zeros(len(column)-1))):
+	# 		bpassABG = np.array(bpastemp)
+	# 	else:
+	# 		bpassABG= vstack((bpassABG,np.array(bpastemp)))
 	bpass = bpass[1:].T
 	bpassABG = bpassABG.T
 	return bpass, bpassABG
