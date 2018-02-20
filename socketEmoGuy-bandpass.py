@@ -60,16 +60,12 @@ def get_data(webS, delay):
                     for i in header:
                         #print header[i]
                         temp = appendX(temp, arrayX(packet.sensors[i]['value']))
-                    # if counter % sampling == 0 and counter is not 0:
-                    #     bp = dc_off(ubahData, True)
-                    #     # print bp
-                    #     # print bp.shape
-                    #     # bp, bpABG = bpass(bp,vstackX,arrayX,zeros, True)
-                    #     # bp, bpABG = bpass(bp,vstackX,arrayX,zeros, True)
-                    #     bp = bp.T
-                    #     #print dump(bp.tolist())
-                    #     thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
-                    #     ubahData = vstackX((arrayX(header), ubahData[sampling:]))
+                    if counter % sampling == 0 and counter is not 0:
+                        bp = dc_off(ubahData, True)
++                       bp, bpABG = bpass(bp, True)
++                       print json.dumps(bp.tolist())
++                       thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
++                       ubahData = vstackX((arrayX(header), ubahData[sampling:]))
                         # print bp
                         # print bp.shape
                         # print ubahData.shape
