@@ -14,12 +14,14 @@ hasil = prp.dcOffset(hasil, True)
 # print hasil[1:].T[1:]
 # prp.plot(hasil[1:].T[1:].T)
 
+bpass,bpassABG=prp.bandpass(hasil,True)
+
 # hasil=prp.fft(hasil,True)
 # hasil2,hasilabg2=prp.bandpass(hasil2,True)
 
 # print hasil
 
-hasil = prp.wavelet(hasil)
+# hasil = prp.wavelet(hasil)
 # hasil2 = prp.wavelet(hasil2)
 
 
