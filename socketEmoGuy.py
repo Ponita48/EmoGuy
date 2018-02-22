@@ -11,10 +11,16 @@ import os
 from emokit.emotiv import Emotiv
 import matplotlib.pyplot as plt
 from emokit.packet import EmotivExtraPacket
+import numpy as np
+import json
+import preprocessing as prp
 
 if platform.system() == "Windows":
 	pass
 isRunning = False
+header = ['F3','F4','F7','F8','AF4','AF3','FC5','FC6','P7','P8','T7','T8','O1','O2']
+populated_data = np.zeros(14) # tanpa header
+# populated_data = np.array(header) #pake header
 
 from SimpleWebSocketServer import SimpleWebSocketServer, WebSocket
 def get_data(webS, delay):
@@ -25,20 +31,24 @@ def get_data(webS, delay):
 		print("Exporting data... press control+c to stop.")
 		dequeue = headset.dequeue
 		counter = 0
+		vstackX = np.vstack
+		dump = json.dumps
 		mean = 3000.0;
 		data = []
+		bpass = prp.bandpassX
+		dc_off = prp.dcOffset
 		while headset.running and isRunning:
 			try:
 				#packet = headset.dequeue()
 				packet = dequeue()
 				#print "test"
 				if (packet is not None) and type(packet) is not EmotivExtraPacket:
-					old_data = "%s\n" % headset.sensors
 					counter=counter+1
 					print counter
 					#print packet.sensors
 					# print "%s\n" % headset.sensors				
-					thread.start_new_thread(send_data, ("%s\n" % (headset.sensors), webS, ))
+					thread.start_new_thread(send_data, ("%s\n" % (packet.sensors), webS, ))
+					thread.start_new_thread(populate_data, (packet.sensors, ))
 				#if not :
 				 #   print("Stopped")
 				  #  headset.stop()
@@ -46,6 +56,16 @@ def get_data(webS, delay):
 				print("Error di get_data : "+str(e))
 				headset.stop()
 			time.sleep(0.001)
+		headset.stop()
+		np.savetxt("saved-raw.csv", populated_data, delimiter=",")
+		bp = dc_off(populated_data, True)
+		np.savetxt("saved-dcoff.csv", bp, delimiter=",")
+		bp, bpABG = bpass(bp, True)
+		np.savetxt("saved-bandpass.csv", bp, delimiter=",")
+		np.savetxt("saved-bandpass(delta).csv", bpABG[0], delimiter=",")
+		np.savetxt("saved-bandpass(theta).csv", bpABG[1], delimiter=",")
+		np.savetxt("saved-bandpass(alpha).csv", bpABG[2], delimiter=",")
+		np.savetxt("saved-bandpass(beta).csv", bpABG[3], delimiter=",")
 		#headset.stop()
 def send_data(data, ws):
 	#print(data)
@@ -53,7 +73,20 @@ def send_data(data, ws):
 		ws((u""+data))
 	except Exception, e:
 		print("Error di send_data :" + str(e))
-		headset.stop()
+
+def populate_data(data):
+	#print(data)
+	global populated_data
+	try:
+		temp = np.array([])
+		appendX = np.append
+		for i in header:
+		    #print header[i]
+		    temp = appendX(temp, data[i]['value'])
+		populated_data = np.vstack((populated_data, temp))
+	except Exception, e:
+		print("Error di populate_data :" + str(e))
+
 def butter_bandpass_filter(data, lowcut, highcut, sampleRate, order=2):
 	b, a = butter_bandpass(lowcut, highcut, sampleRate, order=order)
 	y = lfilter(b, a, data.astype(np.float))

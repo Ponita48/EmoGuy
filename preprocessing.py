@@ -34,7 +34,7 @@ def readData(name=None):
 def dcOffset(data, have_header=True):
 	i=1
 	data = data[have_header:].T.astype(np.float)
-	print data
+	# print data
 	mean = np.mean(data)
 	data = data - mean;	
 	data = data.T
@@ -91,15 +91,36 @@ def bandpass(data, have_header=True):
 	bpassABG = bpassABG.T
 	return bpass, bpassABG
 
-def bandpassX(data,vstackX,arrayX,zerosX, have_header=True):
+def bandpassX(data, have_header=True):
 	data = data.T
-	bpass = zerosX(len(data[0])-1)
-	bpassABG = zerosX(len(data[0])-1)
+	bpass = np.zeros(len(data[0])-1)
+	bpassABG = []
 	cutoff=[1,4,8,12,30]
 	#print len(data.T[0])	
 	for column in data:
-		bps = butter_bandpass_filter(column[have_header:],14,30,128,2)
-		bpass= vstackX((bpass, arrayX(bps)))
+		bps = butter_bandpass_filter(column[have_header:],1,30,128,2)
+		bpass= np.vstack((bpass, np.array(bps)))
+	
+	bpassX = np.zeros(len(data[0])-1)
+	for column in data:
+		bps = butter_bandpass_filter(column[have_header:],1,4,128,2)
+		bpassX= np.vstack((bpassX, np.array(bps)))
+	bpassABG.append(bpassX[1:].T)
+	bpassX = np.zeros(len(data[0])-1)
+	for column in data:
+		bps = butter_bandpass_filter(column[have_header:],4,7,128,2)
+		bpassX= np.vstack((bpassX, np.array(bps)))
+	bpassABG.append(bpassX[1:].T)
+	bpassX = np.zeros(len(data[0])-1)
+	for column in data:
+		bps = butter_bandpass_filter(column[have_header:],8,15,128,2)
+		bpassX= np.vstack((bpassX, np.array(bps)))
+	bpassABG.append(bpassX[1:].T)
+	bpassX = np.zeros(len(data[0])-1)
+	for column in data:
+		bps = butter_bandpass_filter(column[have_header:],16,31,128,2)
+		bpassX= np.vstack((bpassX, np.array(bps)))
+	bpassABG.append(bpassX[1:].T)
 	# for x in range(0,4):
 	# 	bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
 	# 	if(np.array_equal(bpassABG,np.zeros(len(column)-1))):
@@ -107,7 +128,7 @@ def bandpassX(data,vstackX,arrayX,zerosX, have_header=True):
 	# 	else:
 	# 		bpassABG= vstack((bpassABG,np.array(bpastemp)))
 	bpass = bpass[1:].T
-	bpassABG = bpassABG.T
+	# bpassABG = bpassABG.T
 	return bpass, bpassABG
 
 def plot(data=None):
