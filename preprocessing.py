@@ -33,6 +33,7 @@ def readData(name=None):
 
 def dcOffset(data, have_header=True):
 	i=1
+	data = data.T[1:].T
 	data = data[have_header:].T.astype(np.float)
 	# print data
 	mean = np.mean(data)
@@ -79,7 +80,7 @@ def bandpass(data, have_header=True):
 	cutoff=[1,4,8,12,30]
 	#print len(data.T[0])	
 	for column in data.T:
-		bps = butter_bandpass_filter(column[have_header:],14,30,128,2)
+		bps = butter_bandpass_filter(column[have_header:],1,30,128,2)
 		bpass= vstack((bpass, np.array(bps)))
 	# for x in range(0,4):
 	# 	bpastemp = butter_bandpass_filter(data.T[1][have_header:],cutoff[x],cutoff[x+1],128,2)
@@ -160,7 +161,7 @@ def LBP1D(data=None):
 					else:
 						binary_num += str(int(col[mid] >= col[mid+x]))
 				sensor.append(int(binary_num, 2))
-				mid += 1
+				mid += 9
 			result.append(sensor)
 		return np.array(result)
 	else:
