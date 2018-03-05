@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8" />
+<head>
+	<title>WebSocket Test</title>
+
+</head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<body>
+
+	<div class="container">
+	
+
+		<form name="myform" style="margin:5px" class="row">
+			<p class="col">
+				<textarea name="url" class="col" style="resize: none;"></textarea>
+			</p>
+			<p class="col" >
+				<input type="button" name=connectButton value="Connect" class="btn btn-primary" onClick="doConnect();">
+				<input type="button" name=sendButton value="Start" class="btn btn-success" onClick="sendText();">
+				<input type="button" name=clearButton value="Clear" class="btn btn-info" onClick="clearText();">
+				<input type="button" name=disconnectButton value="Disconnect" class="btn btn-danger" onClick="doDisconnect();">
+			</p>
+		</form>
+		<div id="chartContainer" style="height: 750px" >
+		</div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/canvasjs.min.js"></script>
+<script language="javascript" type="text/javascript">
+	var dataPointsAF3 = [];
+	var dataPointsAF4 = [];
+	var dataPointsF3 = [];
+	var dataPointsF4 = [];
+	var dataPointsF7 = [];
+	var dataPointsF8 = [];
+	var dataPointsFC5 = [];
+	var dataPointsFC6 = [];
+
+	var xValue = 0;
+	var mean = 3000;
+	var chart = null;
+	var chart = new CanvasJS.Chart("chartContainer", {
+			theme: "light2",
+			title: {
+				text: "Live Data"
+			},
+			data: [{
+				name: "AF3",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsAF3
+			},{
+				name: "AF4",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsAF4
+			},{
+				name: "F3",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsF3
+			},{
+				name: "F4",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsF4
+			},{
+				name: "F7",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsF7
+			},{
+				name: "F8",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsF8
+			},{
+				name: "FC5",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsFC5
+			},{
+				name: "FC6",
+				showInLegend: true,
+				type: "line",
+				dataPoints: dataPointsFC6
+			}]
+		});
+	window.onload = function() {
+		chart.render();
+
+		
+		
+	}
+	function init()
+	{
+		document.myform.url.value = "ws://127.0.0.1:8080/"
+		document.myform.disconnectButton.disabled = true;
+	}
+
+	function doConnect()
+	{
+		websocket = new WebSocket(document.myform.url.value);
+		websocket.onopen = function(evt) { onOpen(evt) };
+		websocket.onclose = function(evt) { onClose(evt) };
+		websocket.onmessage = function(evt) { onMessage(evt) };
+		websocket.onerror = function(evt) { onError(evt) };
+	}
+
+	function onOpen(evt)
+	{
+		document.myform.connectButton.disabled = true;
+		document.myform.disconnectButton.disabled = false;
+	}
+
+	function onClose(evt)
+	{
+		document.myform.connectButton.disabled = false;
+		document.myform.disconnectButton.disabled = true;
+	}
+
+	function onMessage(evt)
+	{
+		xValue++;
+		if(xValue%5==0){
+			var jsonString = evt.data.replace(/'/g,"\"")
+			//console.log(jsonString)
+			var obj = jQuery.parseJSON(jsonString)
+			if(xValue>1000){
+				dataPointsAF3.shift();
+				dataPointsAF4.shift();
+				dataPointsF3.shift();
+				dataPointsF4.shift();
+				dataPointsF7.shift();
+				dataPointsF8.shift();
+				dataPointsFC5.shift();
+				dataPointsFC6.shift();
+				
+			}
+			dataPointsAF3.push({x: xValue, y: parseFloat(obj.AF3.value-1000)});
+			dataPointsAF4.push({x: xValue, y: parseFloat(obj.AF4.value-2000)});
+			dataPointsF3.push({x: xValue, y: parseFloat(obj.F3.value-3000)});
+			dataPointsF4.push({x: xValue, y: parseFloat(obj.F4.value-4000)});
+			dataPointsF7.push({x: xValue, y: parseFloat(obj.F7.value-5000)});
+			dataPointsF8.push({x: xValue, y: parseFloat(obj.F8.value-6000)});
+			dataPointsFC5.push({x: xValue, y: parseFloat(obj.FC5.value-7000)});
+			dataPointsFC6.push({x: xValue, y: parseFloat(obj.FC6.value-8000)});
+
+			chart.render();
+		}
+		//writeToScreen("response: " + evt.data + '\n');
+		//writeToScreen("response: " + xValue + '\n');
+
+
+	}
+
+	function onError(evt)
+	{
+		
+		websocket.close();
+
+		document.myform.connectButton.disabled = false;
+		document.myform.disconnectButton.disabled = true;
+
+	}
+
+	function doSend(message)
+	{
+		websocket.send("START");
+	}
+
+	function writeToScreen(message)
+	{
+		document.myform.outputtext.value += message
+		document.myform.outputtext.scrollTop = document.myform.outputtext.scrollHeight;
+
+	}
+
+	window.addEventListener("load", init, false);
+
+
+	function sendText() {
+		doSend();
+	}
+
+	function clearText() {
+		var dataPointsAF3 = [];
+		var dataPointsAF4 = [];
+		var dataPointsF3 = [];
+		var dataPointsF4 = [];
+		var dataPointsF7 = [];
+		var dataPointsF8 = [];
+		var dataPointsFC5 = [];
+		var dataPointsFC6 = [];
+		var dataPointsP7 = [];
+		var dataPointsP8 = [];
+		var dataPointsT7 = [];
+		var dataPointsT8 = [];
+		var dataPointsO1 = [];
+		var dataPointsO2 = [];
+	}
+
+	function doDisconnect() {
+		websocket.close();
+	}
+
+
+</script>
+
+
+</html> 
+
