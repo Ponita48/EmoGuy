@@ -182,8 +182,3 @@ def wavelet(data=None):
 			recon = pywt.waverec(coeffs, 'db1')
 			ret_val = vstack((ret_val, np.array(recon)))
 		return ret_val[1:].T
-
-"""
-TODO: pake keras? drivernya (CUDA) gede pizun :((( kalo gak pake, harus bikin LSTM manual
-
-"""

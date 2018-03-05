@@ -21,12 +21,20 @@ hasil = np.vstack((hasil, hasil2[1:]))
 target = np.zeros(hasilLen-1)
 target = np.append(target, np.ones(hasil2Len-1))
 
+from sklearn.decomposition import FastICA
+hasil = prp.dcOffset(hasil)
+ica = FastICA()
+S_ = ica.fit_transform(hasil)
+A_ = ica.mixing_
+
+
 from sklearn import svm
 import time
+print "Start Learning"
 start = time.time()
 model = svm.SVC(kernel='linear')
-model.fit(hasil[1:], target)
-print time.time() - start
+model.fit(hasil, target)
+print "Learning Finished on", time.time() - start, "s"
 
 import pickle
 modelkuh = {'modelkuh': model}
