@@ -6,30 +6,42 @@ import preprocessing as prp
 
 name = 'csv/cf-rilek.csv'
 hasil = prp.readData(name)
-header = hasil[0][0] == "Timestamp"
-hasil = prp.dcOffset(hasil, True)
-# name2 = 'csv/cf-play.csv'
-# hasil2 = prp.readData(name2)
-# hasil2 = prp.dcOffset(hasil2, True)
-# print hasil[1:].T[1:]
-# prp.plot(hasil[1:].T[1:].T)
+timestamp = hasil.T[0]
+hasilLen = len(hasil)
+hasil = hasil.T[1:].T
 
-bpass,bpassABG=prp.bandpass(hasil,True)
+name = "csv/cf-play.csv"
+hasil2 = prp.readData(name)
+timestamp2 = hasil2.T[0]
+hasil2Len = len(hasil2)
+hasil2 = hasil2.T[1:].T
 
-# hasil=prp.fft(hasil,True)
-# hasil2,hasilabg2=prp.bandpass(hasil2,True)
+hasil = np.vstack((hasil, hasil2[1:]))
 
-# print hasil
+target = np.zeros(hasilLen-1)
+target = np.append(target, np.ones(hasil2Len-1))
 
-# hasil = prp.wavelet(hasil)
-# hasil2 = prp.wavelet(hasil2)
-
-
-plt.figure(1)
-plt.subplot(111)
-plt.plot(hasil.T[0])
+from sklearn.decomposition import FastICA
+hasil = prp.dcOffset(hasil)
+ica = FastICA()
+S_ = ica.fit_transform(hasil)
+A_ = ica.mixing_
 
 
-# plt.subplot(212)
-# plt.plot(hasil2.T[0])
-plt.show()
+from sklearn import svm
+import time
+print "Start Learning"
+start = time.time()
+model = svm.SVC(kernel='linear')
+model.fit(hasil, target)
+print "Learning Finished on", time.time() - start, "s"
+
+import pickle
+modelkuh = {'modelkuh': model}
+# Pickle
+pickle.dump(modelkuh, open("modelkuh.p", "wb"))
+pickle.dumps(modelkuh)
+
+# print target
+# print len(target)
+

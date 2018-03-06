@@ -8,8 +8,8 @@ import time
 import socket
 import thread
 import numpy as np
-import os
 import json
+import os
 from emokit.packet import EmotivExtraPacket
 
 from emokit.emotiv import Emotiv
@@ -55,17 +55,19 @@ def get_data(webS, delay):
                     # print counter
 
                     # data yang diambil real time
+                    sensors = packet.sensors
                     temp = arrayX([])
                     # bp_send = zeros(sampling)
                     for i in header:
                         #print header[i]
-                        temp = appendX(temp, arrayX(packet.sensors[i]['value']))
+                        temp = appendX(temp, sensors[i]['value'])
                     if counter % sampling == 0 and counter is not 0:
                         bp = dc_off(ubahData, True)
-+                       bp, bpABG = bpass(bp, True)
-+                       print json.dumps(bp.tolist())
-+                       thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
-+                       ubahData = vstackX((arrayX(header), ubahData[sampling:]))
+                        bp, bpABG = bpass(bp,vstackX,arrayX,zeros, True)
+                        print json.dumps(bp.tolist())
+                        bp = bp.T
+                        thread.start_new_thread(send_data, ("%s\n" % (dump(bp.tolist())), webS, ))
+                        ubahData = vstackX((arrayX(header), ubahData[sampling:]))
                         # print bp
                         # print bp.shape
                         # print ubahData.shape
