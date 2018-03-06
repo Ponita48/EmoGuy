@@ -26,14 +26,14 @@ hasil = prp.dcOffset(hasil)
 ica = FastICA()
 S_ = ica.fit_transform(hasil)
 A_ = ica.mixing_
-
+bp, bpABG = prp.bandpassX(hasil,True)
 
 from sklearn import svm
 import time
 print "Start Learning"
 start = time.time()
 model = svm.SVC(kernel='linear')
-model.fit(hasil, target)
+model.fit(bpABG[3], target[1:])
 print "Learning Finished on", time.time() - start, "s"
 
 import pickle
